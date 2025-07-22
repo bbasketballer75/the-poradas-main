@@ -1,6 +1,7 @@
 # Wedding Interactive Website - AI Agent Context
 
-## 🎯 Project Goal
+## 
+ Project Goal
 
 This project is a Node.js-powered website for our wedding. The primary objective is to create a **memorable, interactive experience for all guests**, making it easy to contribute and relive the event.
 
@@ -12,7 +13,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## ✨ Key Features - Detailed Implementation Requirements
+## 
+ Key Features - Detailed Implementation Requirements
 
 *This section provides specific tasks the AI should focus on for each feature.*
 
@@ -58,7 +60,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 🚀 Tech Stack - Confirmed Choices
+## 
+ Tech Stack - Confirmed Choices
 
 *This section helps the AI focus on specific technologies for implementation.*
 
@@ -72,7 +75,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 📂 Directory Structure - Confirmed
+## 
+ Directory Structure - Confirmed
 
 *This structure should be respected for all code generation and file operations.*
 
@@ -115,7 +119,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## ⚙️ Setup & Execution Instructions for AI Agent
+## 
+ Setup & Execution Instructions for AI Agent
 
 *This section tells the AI how to interact with the project environment (run commands, etc.).*
 
@@ -133,7 +138,7 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 3.  **Run the Server:**
     - From the project root (`/wedding-site`): `npm run dev` (This script should be added to `package.json` to concurrently start both backend and frontend).
-        *If concurrent startup is complex, provide separate commands:*
+        *If concurrent startup is complex, provide separate commands:*\
         - Backend: `cd backend && node server.js`
         - Frontend: `cd frontend && npm run dev`
 
@@ -143,7 +148,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 🎯 High-Level Architecture Overview for AI
+## 
+ High-Level Architecture Overview for AI
 
 *This section helps the AI understand the system flow.*
 
@@ -173,7 +179,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 🧠 AI Agent Guidance - Specific Directives
+## 
+ AI Agent Guidance - Specific Directives
 
 *This section provides explicit instructions on how the AI should approach tasks.*
 
@@ -188,7 +195,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 🗓️ Future Improvements / TODO for AI Consideration
+## 
+ Future Improvements / TODO for AI Consideration
 
 *The AI can consider these for follow-up tasks after initial features are complete.*
 
@@ -199,7 +207,8 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
-## 📜 Credits
+## 
+ Credits
 
 Project inspired by previous attempts in:
 - [`bbasketballer75/the-poradas-main`](https://github.com/bbasketballer75/the-poradas-main)
