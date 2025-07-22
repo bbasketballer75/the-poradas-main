@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getGuestbookEntries, addGuestbookEntry } from '../services/api';
+import { getGuestbookEntries, createGuestbookEntry } from '../services/api';
 import './GuestbookPage.css';
 
 const GuestbookPage = () => {
@@ -18,7 +18,7 @@ const GuestbookPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name && message) {
-      await addGuestbookEntry({ name, message });
+      await createGuestbookEntry({ name, message });
       setName('');
       setMessage('');
       const response = await getGuestbookEntries();
