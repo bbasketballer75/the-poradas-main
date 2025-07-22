@@ -21,7 +21,7 @@
                 "env": [
                     {
                         "name": "MONGODB_URI",
-                        "value": "mongodb://host.minikube.internal:27017/wedding_site"
+                        "value": "mongodb://192.168.49.2:27017/wedding_site"
                     },
                     {
                         "name": "ADMIN_SECRET_KEY",
@@ -33,6 +33,9 @@
                 "minikube": {
                     "autoStop": false
                 }
+            },
+            "readinessProbe": {
+                "exec": null
             },
             "watch": true
         }

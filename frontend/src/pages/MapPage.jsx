@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import { getPins, addPin } from '../services/api';
+import { getMapLocations as getPins, logVisit as addPin } from '../services/api';
 import './MapPage.css';
 import 'leaflet/dist/leaflet.css';
 

@@ -35,4 +35,12 @@ export const getVideoUrl = () => {
   return `${API_URL}/video`;
 };
 
+export const getAllAlbumMedia = (adminKey) => {
+  return axios.get(`${API_URL}/album/all`, { headers: { 'Authorization': `Bearer ${adminKey}` } });
+};
+
+export const moderateMedia = (photoId, isApproved, adminKey) => {
+  return axios.post(`${API_URL}/album/moderate`, { photoId, isApproved }, { headers: { 'Authorization': `Bearer ${adminKey}` } });
+};
+
 // ... other api functions can be added here
