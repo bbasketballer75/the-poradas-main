@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { getPhotos, uploadPhoto } from '../services/api';
+import { getAlbumMedia, uploadMedia } from '../services/api';
 import './AlbumPage.css';
 
 const AlbumPage = () => {
@@ -8,7 +8,7 @@ const AlbumPage = () => {
 
   useEffect(() => {
     const fetchPhotos = async () => {
-      const response = await getPhotos();
+      const response = await getAlbumMedia();
       setPhotos(response.data);
     };
     fetchPhotos();
@@ -22,9 +22,9 @@ const AlbumPage = () => {
     if (file) {
       const formData = new FormData();
       formData.append('photo', file);
-      await uploadPhoto(formData);
+      await uploadMedia(formData);
       setFile(null);
-      const response = await getPhotos();
+      const response = await getAlbumMedia();
       setPhotos(response.data);
     }
   };
@@ -39,7 +39,7 @@ const AlbumPage = () => {
       <div className="photo-grid">
         {photos.map((photo) => (
           <div key={photo._id} className="photo-card">
-            <img src={`http://localhost:5000/uploads/${photo.filename}`} alt={photo.filename} />
+            <img src={`/uploads/${photo.filename}`} alt={photo.filename} />
           </div>
         ))}
       </div>
