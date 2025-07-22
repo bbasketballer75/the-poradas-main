@@ -6,7 +6,7 @@ import {
   moderateMedia,
 } from '../controllers/albumController.js'; // Assuming this is the correct controller
 import upload from '../middleware/uploadMiddleware.js';
-import { authMiddleware } from '../middleware/authMiddleware.js';
+import { protectAdmin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.get('/', getAlbumMedia);
 router.post('/upload', upload.array('media', 10), uploadMedia); // Allow up to 10 files
 
 // Admin routes
-router.get('/all', authMiddleware, getAllMedia);
-router.post('/moderate', authMiddleware, moderateMedia);
+router.get('/all', protectAdmin, getAllMedia);
+router.post('/moderate', protectAdmin, moderateMedia);
 
 export default router;
