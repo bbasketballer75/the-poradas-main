@@ -20,8 +20,7 @@
                 },
                 "env": [
                     {
-                        "name": "MONGODB_URI",
-                        "value": "mongodb://192.168.49.2:27017/wedding_site"
+                        "MONGODB_URI": "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding_site"
                     },
                     {
                         "name": "ADMIN_SECRET_KEY",

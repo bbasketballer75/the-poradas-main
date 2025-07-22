@@ -128,7 +128,7 @@ This project is a Node.js-powered website for our wedding. The primary objective
     - Ensure `MongoDB` is running locally or provide connection string via `.env`.
     - Create a `.env` file at the project root based on `.env.example`. Required variables:
         - `PORT=3000`
-        - `MONGODB_URI=mongodb://localhost:27017/wedding_site`
+        - `MONGODB_URI=mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding_site`
         - `Maps_API_KEY=YOUR_API_KEY`
         - `IP_GEOLOCATION_API_KEY=YOUR_API_KEY` (if `ip-api.com` requires one for your usage or if using another service)
 

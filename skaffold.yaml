@@ -1,0 +1,30 @@
+apiVersion: skaffold/v4beta13
+kind: Config
+metadata:
+  name: the-final-website
+build:
+  artifacts:
+    - image: backend-image
+      context: backend
+      docker:
+        dockerfile: Dockerfile
+    - image: frontend-image
+      context: frontend
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - k8s/backend-deployment.yaml
+      - k8s/backend-service.yaml
+      - k8s/frontend-deployment.yaml
+      - k8s/frontend-service.yaml
+portForward:
+  - resourceType: service
+    resourceName: backend-service
+    port: 5000
+    localPort: 5000
+  - resourceType: service
+    resourceName: frontend-service
+    port: 80
+    localPort: 3000
