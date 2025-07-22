@@ -20,7 +20,9 @@
                 },
                 "env": [
                     {
-                        "MONGODB_URI": "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding_site"
+                        // CORRECTED SYNTAX: MONGODB_URI needs "name" and "value" properties
+                        "name": "MONGODB_URI",
+                        "value": "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding_site"
                     },
                     {
                         "name": "ADMIN_SECRET_KEY",
@@ -33,11 +35,8 @@
                     "autoStop": false
                 }
             },
-            "readinessProbe": {
-                "exec": {
-                    "command": []
-                }
-            },
+            // ADDED: Explicitly disable the readiness probe to avoid the image pull error
+            "readinessProbe": false, 
             "watch": true
         }
     ]
