@@ -1,49 +1,172 @@
 .guestbook-page {
   padding: 2rem;
   text-align: center;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .form-wrapper {
   max-width: 500px;
   margin: 0 auto 2rem auto;
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .label {
   display: block;
   margin-bottom: 0.5rem;
   text-align: left;
+  font-weight: 600;
+  color: #333;
 }
 
 .input,
 .textarea {
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.75rem;
   margin-bottom: 1rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.input:focus,
+.textarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
+}
+
+.input:disabled,
+.textarea:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
 }
 
 .button {
   background-color: #007bff;
   color: white;
-  padding: 0.75rem 1.5rem;
+  padding: 0.75rem 2rem;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.button:hover:not(:disabled) {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.form-error {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.form-success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem;
+  text-align: center;
 }
 
 .messages {
   margin-top: 2rem;
+  display: grid;
+  gap: 1rem;
 }
 
 .message {
-  background-color: #f9f9f9;
-  border-radius: 8px;
-  padding: 1rem;
-  margin-bottom: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 1.5rem;
   text-align: left;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #007bff;
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.message:hover,
+.message:focus {
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  outline: none;
 }
 
 .message-name {
   font-weight: bold;
+  color: #007bff;
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.message-text {
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+}
+
+.message-date {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+  font-style: italic;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .guestbook-page {
+    padding: 1rem;
+  }
+  
+  .form-wrapper {
+    padding: 1.5rem;
+  }
+  
+  .message {
+    padding: 1rem;
+  }
 }
