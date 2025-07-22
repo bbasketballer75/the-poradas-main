@@ -34,9 +34,6 @@
                     "autoStop": false
                 }
             },
-            "readinessProbe": {
-                "exec": null
-            },
             "watch": true
         }
     ]
