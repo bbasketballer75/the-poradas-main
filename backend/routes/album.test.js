@@ -19,7 +19,7 @@ jest.mock('../middleware/uploadMiddleware.js', () => ({
   },
 }));
 jest.mock('../middleware/authMiddleware.js', () => ({
-  authMiddleware: (req, res, next) => next(),
+  protectAdmin: (req, res, next) => next(),
 }));
 
 const app = express();

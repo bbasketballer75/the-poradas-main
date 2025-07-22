@@ -34,6 +34,11 @@
                     "autoStop": false
                 }
             },
+            "readinessProbe": {
+                "exec": {
+                    "command": []
+                }
+            },
             "watch": true
         }
     ]

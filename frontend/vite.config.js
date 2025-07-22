@@ -9,7 +9,7 @@ export default defineConfig({
     proxy: {
       // Proxy API requests to the backend server
       '/api': {
-        target: 'http://localhost:5001', // Your backend server address
+        target: 'http://localhost:5000', // Your backend server address
         changeOrigin: true,
       },
       // Proxy static asset requests like uploaded images
