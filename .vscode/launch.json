@@ -20,7 +20,6 @@
                 },
                 "env": [
                     {
-                        // CORRECTED SYNTAX: MONGODB_URI needs "name" and "value" properties
                         "name": "MONGODB_URI",
                         "value": "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding_site"
                     },
@@ -35,9 +34,13 @@
                     "autoStop": false
                 }
             },
-            // ADDED: Explicitly disable the readiness probe to avoid the image pull error
-            "readinessProbe": false, 
-            "watch": true
+            "readinessProbe": false,
+            "watch": true,
+            "debug": {
+                "sourceFileMap": {
+                    "${workspaceFolder}": "/usr/src/app/backend"
+                }
+            }
         }
     ]
 }
