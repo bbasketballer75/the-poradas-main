@@ -1,0 +1,49 @@
+.guestbook-page {
+  padding: 2rem;
+  text-align: center;
+}
+
+.form-wrapper {
+  max-width: 500px;
+  margin: 0 auto 2rem auto;
+}
+
+.label {
+  display: block;
+  margin-bottom: 0.5rem;
+  text-align: left;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.button {
+  background-color: #007bff;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.messages {
+  margin-top: 2rem;
+}
+
+.message {
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+.message-name {
+  font-weight: bold;
+}

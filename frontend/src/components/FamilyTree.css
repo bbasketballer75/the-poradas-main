@@ -1,0 +1,97 @@
+.family-tree-container {
+  width: 100%;
+  text-align: center;
+  padding: 2rem 0;
+  overflow-x: auto; /* Allows horizontal scrolling for large trees */
+}
+
+.family-tree {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.member {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  padding: 20px 0;
+}
+
+.member-card {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 15px 25px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  min-width: 200px;
+  z-index: 1;
+}
+
+.member-name {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+}
+
+.member-role {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.children {
+  display: flex;
+  justify-content: center;
+  padding-top: 40px; /* Space for connecting lines */
+  position: relative;
+}
+
+/* Vertical connecting line from parent to children container */
+.member-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background-color: #ccc;
+}
+
+/* Hide the line for members with no children */
+.member:has(.children:empty) .member-card::after {
+  display: none;
+}
+
+.children > .member {
+  padding: 20px;
+}
+
+/* Horizontal connecting line for children */
+.children::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background-color: #ccc;
+}
+
+/* Vertical connecting line from child to horizontal line */
+.member::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background-color: #ccc;
+}
+
+/* Hide the line for the top-level member */
+.family-tree > .member::before {
+  display: none;
+}

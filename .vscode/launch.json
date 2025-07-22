@@ -1,0 +1,40 @@
+{
+    "configurations": [
+        {
+            "name": "Cloud Run: Run/Debug Locally",
+            "type": "cloudcode.cloudrun",
+            "request": "launch",
+            "build": {
+                "docker": {
+                    "path": "Dockerfile"
+                }
+            },
+            "image": "the-final-website",
+            "service": {
+                "name": "the-final-website",
+                "containerPort": 5000,
+                "resources": {
+                    "limits": {
+                        "memory": "256Mi"
+                    }
+                },
+                "env": [
+                    {
+                        "name": "MONGODB_URI",
+                        "value": "mongodb://host.minikube.internal:27017/wedding_site"
+                    },
+                    {
+                        "name": "ADMIN_SECRET_KEY",
+                        "value": "passw0rd"
+                    }
+                ]
+            },
+            "target": {
+                "minikube": {
+                    "autoStop": false
+                }
+            },
+            "watch": true
+        }
+    ]
+}

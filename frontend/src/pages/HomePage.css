@@ -1,0 +1,92 @@
+/* HomePage.css */
+
+.home-page {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  padding: 100px 20px;
+  color: white;
+  background: url('/images/landing-bg.jpg') no-repeat center center/cover;
+}
+
+.hero-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}
+
+.display-4 {
+  font-size: 3.5rem;
+  font-weight: 300;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+/* Section Titles */
+.section-title {
+  margin-bottom: 40px;
+  font-size: 2.5rem;
+  font-weight: 300;
+  color: #333;
+}
+
+/* Video Section */
+.video-section {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+}
+
+.video-container {
+  max-width: 800px;
+  margin: 0 auto;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+/* Our Story Section */
+.our-story-section {
+  padding: 60px 20px;
+}
+
+.our-story-section img {
+  max-width: 300px;
+}
+
+/* Explore Section */
+.explore-section {
+  padding: 60px 20px;
+  background-color: #f8f9fa;
+}
+
+.card {
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 25px rgba(0,0,0,0.15);
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #0056b3;
+}

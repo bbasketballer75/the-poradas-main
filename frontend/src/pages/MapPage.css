@@ -1,0 +1,9 @@
+.map-page {
+  padding: 2rem;
+  text-align: center;
+}
+
+.map-container {
+  height: 500px;
+  width: 100%;
+}
