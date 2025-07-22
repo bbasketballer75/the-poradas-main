@@ -1,0 +1,12 @@
+
+services:
+  - type: web
+    name: wedding-api
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: "cd backend && npm install"
+    startCommand: "cd backend && npm start"
+    envVars:
+      - key: MONGODB_URI
+        sync: false
