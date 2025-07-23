@@ -1,3 +1,17 @@
+.album-subheading {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--sage-green-dark);
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.download-btn {
+  margin-top: 0.75rem;
+  display: inline-block;
+  font-size: 0.95rem;
+  padding: 0.5rem 1.2rem;
+}
 
 /* Album Page - Wedding Theme */
 .album-page {

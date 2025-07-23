@@ -82,7 +82,7 @@
 }
 
 .upload-button {
-  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 100%);
+  background: var(--sage-green);
   color: white;
   border: none;
   padding: 1rem 2.5rem;

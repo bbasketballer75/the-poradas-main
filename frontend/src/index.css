@@ -1,3 +1,6 @@
+html {
+  scroll-behavior: smooth;
+}
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@400;500;600;700&display=swap');
 
 :root {
@@ -175,7 +178,7 @@ h3 {
   border: 0;
 }
 
-/* Beautiful Button Styles */
+/* Beautiful Button Styles - Elegant Solid Colors */
 .btn {
   display: inline-block;
   font-family: var(--font-heading);
@@ -184,8 +187,8 @@ h3 {
   padding: 0.75rem 2.2rem;
   border-radius: var(--border-radius);
   border: none;
-  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
-  color: var(--charcoal);
+  background: var(--sage-green);
+  color: white;
   box-shadow: var(--shadow-soft);
   cursor: pointer;
   transition: var(--transition-smooth);
@@ -195,14 +198,38 @@ h3 {
   z-index: 1;
 }
 .btn:hover, .btn:focus-visible {
-  background: linear-gradient(90deg, var(--sage-green-dark) 0%, var(--blush-dark) 100%);
-  color: var(--charcoal);
+  background: var(--sage-green-dark);
+  color: white;
   transform: translateY(-2px) scale(1.03);
   outline: none;
 }
 .btn:active {
-  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
-  filter: brightness(0.98);
+  background: var(--sage-green-dark);
+  transform: translateY(0) scale(1);
+}
+
+/* Secondary Button Style */
+.btn.secondary {
+  background: transparent;
+  color: var(--sage-green);
+  border: 2px solid var(--sage-green);
+}
+
+.btn.secondary:hover, .btn.secondary:focus-visible {
+  background: var(--sage-green);
+  color: white;
+  border-color: var(--sage-green);
+}
+
+/* Accent Button Style */
+.btn.accent {
+  background: var(--blush);
+  color: white;
+}
+
+.btn.accent:hover, .btn.accent:focus-visible {
+  background: var(--blush-dark);
+  color: white;
 }
 
 /* Focus Visible for Accessibility */
@@ -274,10 +301,10 @@ h3 {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: linear-gradient(var(--sage-green), var(--eucalyptus));
+  background: var(--sage-green);
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: linear-gradient(var(--sage-green-dark), var(--eucalyptus-dark));
+  background: var(--sage-green-dark);
 }

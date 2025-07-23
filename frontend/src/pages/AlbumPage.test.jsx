@@ -1,29 +1,21 @@
 import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { MemoryRouter } from 'react-router-dom';
 import AlbumPage from './AlbumPage';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import * as api from '../services/api';
 
-// Mock the UploadForm component
-vi.mock('../components/UploadForm', () => ({
-  default: ({ onUploadSuccess }) => (
-    <div data-testid="mock-upload-form">
-      <button onClick={() => onUploadSuccess && onUploadSuccess()}>
-        Mock Upload Success
-      </button>
-    </div>
-  )
-}));
+vi.mock('../services/api', () => {
+  return {
+    getAlbumMedia: vi.fn(() => new Promise(resolve => setTimeout(() => resolve({ data: [
+      { _id: '1', filename: '1.jpg' },
+      { _id: '2', filename: '2.jpg' },
+    ] }), 50))),
+    uploadMedia: vi.fn(() => Promise.resolve({})),
+  };
+});
 
-// Mock the PhotoGallery component
-vi.mock('../components/PhotoGallery', () => ({
-  default: ({ refreshKey }) => (
-    <div data-testid="mock-photo-gallery" data-refresh-key={refreshKey}>
-      Photo Gallery (refreshKey: {refreshKey})
-    </div>
-  )
-}));
 
 describe('AlbumPage', () => {
   const renderWithRouter = (component) => {
@@ -42,103 +34,63 @@ describe('AlbumPage', () => {
     vi.clearAllMocks();
   });
 
-  it('renders the main heading', () => {
-    renderWithRouter(<AlbumPage />);
-    // AlbumPage uses an <h2> for the main heading
-    const heading = screen.getByText('Photo & Video Album');
-    expect(heading).toBeInTheDocument();
-  });
-
-  it('renders UploadForm and PhotoGallery components', () => {
-    renderWithRouter(<AlbumPage />);
-    
-    expect(screen.getByTestId('mock-upload-form')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-photo-gallery')).toBeInTheDocument();
-  });
-
-  it('passes correct initial refreshKey to PhotoGallery', () => {
-    renderWithRouter(<AlbumPage />);
-    
-    const photoGallery = screen.getByTestId('mock-photo-gallery');
-    expect(photoGallery).toHaveAttribute('data-refresh-key', '0');
-  });
-
-  it('increments refreshKey when upload succeeds', async () => {
-    renderWithRouter(<AlbumPage />);
-    
-    const uploadButton = screen.getByText('Mock Upload Success');
-    fireEvent.click(uploadButton);
-    
-    await waitFor(() => {
-      const photoGallery = screen.getByTestId('mock-photo-gallery');
-      expect(photoGallery).toHaveAttribute('data-refresh-key', '1');
+  it('shows loading screen and then renders album content', async () => {
+    await act(async () => {
+      renderWithRouter(<AlbumPage />);
     });
+    expect(screen.getByText(/Loading album/i)).toBeInTheDocument();
+    await waitFor(() => expect(screen.queryByText(/Loading album/i)).not.toBeInTheDocument());
+    expect(screen.getByRole('heading', { name: 'Photo & Video Album' })).toBeInTheDocument();
+    expect(document.querySelector('.photo-grid')).toBeInTheDocument();
+    expect(document.querySelectorAll('.photo-card').length).toBeGreaterThan(0);
   });
 
-  it('handles multiple upload successes correctly', async () => {
-    renderWithRouter(<AlbumPage />);
-    
-    const uploadButton = screen.getByText('Mock Upload Success');
-    
-    // First upload
-    fireEvent.click(uploadButton);
-    await waitFor(() => {
-      const photoGallery = screen.getByTestId('mock-photo-gallery');
-      expect(photoGallery).toHaveAttribute('data-refresh-key', '1');
+  it('renders upload input and button', async () => {
+    await act(async () => {
+      renderWithRouter(<AlbumPage />);
     });
-    
-    // Second upload
-    fireEvent.click(uploadButton);
-    await waitFor(() => {
-      const photoGallery = screen.getByTestId('mock-photo-gallery');
-      expect(photoGallery).toHaveAttribute('data-refresh-key', '2');
+    await waitFor(() => expect(screen.queryByText(/Loading album/i)).not.toBeInTheDocument());
+    expect(screen.getByRole('button', { name: /Upload Photo/i })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Upload Photo/i })).toBeInTheDocument();
+    // The input is type="file" with no label, so use querySelector
+    const fileInput = document.querySelector('input[type="file"]');
+    expect(fileInput).toBeInTheDocument();
+  });
+
+  it('calls uploadMedia when upload button is clicked', async () => {
+    await act(async () => {
+      renderWithRouter(<AlbumPage />);
     });
+    await waitFor(() => expect(screen.queryByText(/Loading album/i)).not.toBeInTheDocument());
+    // The input is type="file" with no label, so use querySelector
+    const fileInput = document.querySelector('input[type="file"]');
+    const file = new File(['dummy'], 'test.jpg', { type: 'image/jpeg' });
+    await act(async () => {
+      fireEvent.change(fileInput, { target: { files: [file] } });
+    });
+    const uploadButton = screen.getByRole('button', { name: /Upload Photo/i });
+    await act(async () => {
+      fireEvent.click(uploadButton);
+    });
+    await waitFor(() => expect(api.uploadMedia).toHaveBeenCalled());
   });
 
-  it('has proper accessibility structure', () => {
-    renderWithRouter(<AlbumPage />);
-    // AlbumPage uses an <h2> for the main heading
-    const mainHeading = screen.getByText('Photo & Video Album');
-    expect(mainHeading).toBeVisible();
-    const albumContainer = document.querySelector('.album-page');
-    expect(albumContainer).toBeInTheDocument();
-  });
-
-  it('applies correct CSS classes', () => {
-    renderWithRouter(<AlbumPage />);
-    
+  it('applies correct CSS classes and structure', async () => {
+    await act(async () => {
+      renderWithRouter(<AlbumPage />);
+    });
+    await waitFor(() => expect(screen.queryByText(/Loading album/i)).not.toBeInTheDocument());
     const albumContainer = document.querySelector('.album-page');
     expect(albumContainer).toBeInTheDocument();
     expect(albumContainer).toHaveClass('album-page');
+    expect(document.querySelector('.photo-grid')).toBeInTheDocument();
   });
 
   it('renders without errors', () => {
     expect(() => {
-      renderWithRouter(<AlbumPage />);
+      act(() => {
+        renderWithRouter(<AlbumPage />);
+      });
     }).not.toThrow();
-  });
-
-  it('maintains component state properly', () => {
-    renderWithRouter(<AlbumPage />);
-    
-    // Components should be present and functional
-    expect(screen.getByTestId('mock-upload-form')).toBeInTheDocument();
-    expect(screen.getByTestId('mock-photo-gallery')).toBeInTheDocument();
-    
-    // State should be managed correctly (refreshKey starts at 0)
-    const photoGallery = screen.getByTestId('mock-photo-gallery');
-    expect(photoGallery).toHaveAttribute('data-refresh-key', '0');
-  });
-
-  it('is responsive and mobile-friendly', () => {
-    renderWithRouter(<AlbumPage />);
-    
-    const albumContainer = document.querySelector('.album-page');
-    expect(albumContainer).toBeInTheDocument();
-    expect(albumContainer).toBeVisible();
-    
-    // Both child components should be rendered
-    expect(screen.getByTestId('mock-upload-form')).toBeVisible();
-    expect(screen.getByTestId('mock-photo-gallery')).toBeVisible();
   });
 });

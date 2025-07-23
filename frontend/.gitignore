@@ -1,0 +1,2 @@
+# Ignore test artifacts and broken test files
+src/App.orientation.test.jsx

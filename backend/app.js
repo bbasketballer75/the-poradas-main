@@ -11,6 +11,7 @@ import guestbookRoutes from './routes/guestbookRoutes.js';
 import albumRoutes from './routes/album.js';
 import videoRoutes from './routes/videoRoutes.js';
 import mapRoutes from './routes/mapRoutes.js';
+import uploadRoutes from './routes/uploadRoutes.js';
 import { errorHandler } from './utils/errorHandler.js';
 
 const app = express();
@@ -62,6 +63,7 @@ app.use('/api/guestbook', guestbookRoutes);
 app.use('/api/album', albumRoutes);
 app.use('/api/video', videoRoutes);
 app.use('/api/map', mapRoutes);
+app.use('/api/upload', uploadRoutes);
 
 // Rate limiting to prevent abuse
 const limiter = rateLimit({

@@ -1,14 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar';
-import OrientationOverlay from './components/OrientationOverlay';
-import HomePage from './pages/HomePage';
-import AlbumPage from './pages/AlbumPage';
-import GuestbookPage from './pages/GuestbookPage';
-import MapPage from './pages/MapPage';
-import FamilyTreePage from './pages/FamilyTreePage';
+import OnePage from './OnePage';
 import AdminPage from './pages/AdminPage';
-import WeddingPartyPage from './pages/WeddingPartyPage';
 import { logVisit } from './services/api';
 import LoadingScreen from './components/LoadingScreen';
 import './App.css';
@@ -32,22 +25,13 @@ function App() {
 
   return (
     <div className="App">
-      <OrientationOverlay />
-      <Navbar />
-      <main className="container">
-        {loading && <LoadingScreen message="Loading..." />}
-        {!loading && (
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/album" element={<AlbumPage />} />
-            <Route path="/guestbook" element={<GuestbookPage />} />
-            <Route path="/map" element={<MapPage />} />
-            <Route path="/family-tree" element={<FamilyTreePage />} />
-            <Route path="/admin" element={<AdminPage />} />
-            <Route path="/wedding-party" element={<WeddingPartyPage />} />
-          </Routes>
-        )}
-      </main>
+      {loading && <LoadingScreen message="Loading..." />}
+      {!loading && (
+        <Routes>
+          <Route path="/" element={<OnePage />} />
+          <Route path="/admin" element={<AdminPage />} />
+        </Routes>
+      )}
     </div>
   );
 }

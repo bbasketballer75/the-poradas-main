@@ -1,5 +1,44 @@
+import React from 'react';
+import { MemoryRouter } from 'react-router-dom';
 
-import { render, screen } from '@testing-library/react';
+describe('Navbar', () => {
+  it('renders logo and tagline', () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+    expect(screen.getByText(/Austin & Jordyn/i)).toBeInTheDocument();
+  });
+
+  it('renders all navigation links', () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+    expect(screen.getByRole('link', { name: /Home/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Family Tree/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Album/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Guestbook/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Map/i })).toBeInTheDocument();
+  });
+
+  it('opens and closes mobile menu', () => {
+    render(
+      <MemoryRouter>
+        <Navbar />
+      </MemoryRouter>
+    );
+    const toggle = screen.getByLabelText(/Toggle navigation/i);
+    fireEvent.click(toggle);
+    expect(screen.getByRole('navigation')).toBeVisible();
+    fireEvent.click(toggle);
+    expect(screen.getByRole('navigation')).toBeVisible(); // Should remain visible for accessibility
+  });
+});
+
+import { render, screen, fireEvent } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import Navbar from './Navbar';
 import { describe, it, expect } from 'vitest';

@@ -153,7 +153,7 @@
   transform: translate(-50%, -50%);
   width: 60px;
   height: 60px;
-  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 100%);
+  background: var(--sage-green);
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -265,7 +265,7 @@
 
 .gallery-filter-btn:hover,
 .gallery-filter-btn.active {
-  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 100%);
+  background: var(--sage-green);
   color: white;
   transform: translateY(-2px);
   box-shadow: var(--shadow-soft);

@@ -1,3 +1,10 @@
+.guestbook-subheading {
+  font-family: var(--font-body);
+  font-size: 1.1rem;
+  color: var(--sage-green-dark);
+  margin-bottom: 2rem;
+  text-align: center;
+}
 .guestbook-page {
   padding: 3rem 2rem;
   text-align: center;

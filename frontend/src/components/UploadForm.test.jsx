@@ -1,3 +1,12 @@
+
+describe('UploadForm', () => {
+  it('renders upload form fields', () => {
+    render(<UploadForm />);
+    // The input uses aria-label and placeholder, not a visible label
+    expect(screen.getByLabelText(/Select image or video to upload/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Upload File/i })).toBeInTheDocument();
+  });
+});
 vi.mock('../services/api');
 
 import React from 'react';

@@ -24,84 +24,52 @@ const GuestbookPage = () => {
       } catch (err) {
         setError('Could not load guestbook entries. Please try again later.');
       } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchEntries();
-  }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setFormError(null);
-    setSuccess(null);
-    if (!message.trim()) {
-      setFormError('Message is required.');
-      return;
-    }
-    if (message.length > 500) {
-      setFormError('Message cannot exceed 500 characters.');
-      return;
-    }
-    if (name.length > 100) {
-      setFormError('Name cannot exceed 100 characters.');
-      return;
-    }
-    try {
-      await createGuestbookEntry({ name, message });
-      setName('');
-      setMessage('');
-      setSuccess('Thank you for signing our guestbook!');
-      const response = await getGuestbookEntries();
-      setEntries(response.data);
-    } catch {
-      setFormError('Could not submit your message. Please try again.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
   return (
     <div className="guestbook-page">
-      {(isLoading || isSubmitting) && <LoadingScreen message={isSubmitting ? 'Submitting your message...' : 'Loading guestbook...'} />}
-      {!isLoading && !isSubmitting && (
-        error ? (
-          <div className="error-message" role="alert">{error}</div>
-        ) : (
-          <>
-            <h2 className="section-title">Sign Our Guestbook</h2>
-            <form className="guestbook-form" onSubmit={handleSubmit}>
-              <input
-                type="text"
-                placeholder="Your Name (optional)"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                maxLength={100}
-              />
-              <textarea
-                placeholder="Leave a message..."
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                maxLength={500}
-                required
-              />
-              {formError && <div className="form-error" role="alert">{formError}</div>}
-              {success && <div className="form-success" role="status">{success}</div>}
-              <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Submitting...' : 'Sign Guestbook'}
-              </button>
-            </form>
-            <div className="guestbook-entries">
-              {entries.map((entry) => (
-                <div key={entry._id} className="guestbook-entry">
-                  <div className="entry-header">
-                    <span className="entry-name">{entry.name || 'Anonymous'}</span>
-                    <span className="entry-date">{new Date(entry.createdAt).toLocaleDateString()}</span>
-                  </div>
-                  <div className="entry-message">{entry.message}</div>
+      {isLoading && <LoadingScreen message="Loading guestbook..." />}
+      {!isLoading && (
+        <>
+          <h2 className="section-title">Guestbook</h2>
+          <p className="guestbook-subheading">Leave a message or share your favorite memory from our wedding day. We love reading your stories!</p>
+          <form className="guestbook-form" onSubmit={handleSubmit}>
+            <label className="label" htmlFor="name">Name (optional)</label>
+            <input
+              className="input"
+              id="name"
+              type="text"
+              value={name}
+              onChange={e => setName(e.target.value)}
+              maxLength={100}
+              placeholder="Your name"
+              autoComplete="off"
+            />
+            <label className="label" htmlFor="message">Message</label>
+            <textarea
+              className="textarea"
+              id="message"
+              value={message}
+              onChange={e => setMessage(e.target.value)}
+              maxLength={500}
+              placeholder="Share your favorite memory or a message for the couple!"
+              required
+            />
+            {formError && <div className="form-error" role="alert">{formError}</div>}
+            {success && <div className="form-success" role="status">{success}</div>}
+            <button className="button" type="submit" disabled={isSubmitting}>Sign Guestbook</button>
+          </form>
+          <div className="messages">
+            {entries.length === 0 ? (
+              <div className="empty-state">No messages yet. Be the first to share a memory!</div>
+            ) : (
+              entries.map(entry => (
+                <div className="message" key={entry._id}>
+                  <div className="message-name">{entry.name || 'Anonymous'}</div>
+                  <div className="message-text">{entry.message}</div>
                 </div>
-              ))}
-            </div>
-          </>
-        )
+              ))
+            )}
+          </div>
+        </>
       )}
     </div>
   );

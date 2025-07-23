@@ -180,7 +180,7 @@
 .video-play-button {
   width: 80px;
   height: 80px;
-  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 100%);
+  background: var(--sage-green);
   border: none;
   border-radius: 50%;
   display: flex;
@@ -194,6 +194,7 @@
 }
 
 .video-play-button:hover {
+  background: var(--sage-green-dark);
   transform: scale(1.1);
   box-shadow: 0 8px 32px rgba(156, 175, 136, 0.4);
 }

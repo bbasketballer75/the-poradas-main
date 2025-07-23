@@ -36,46 +36,49 @@ describe('VideoPlayer', () => {
     
     expect(screen.getByText('Loading video...')).toBeInTheDocument();
     expect(screen.getByRole('status')).toBeInTheDocument();
-    expect(screen.getByLabelText('Loading video')).toBeInTheDocument();
+    // The video element should be hidden initially
+    const video = screen.getByTestId('video-player');
+    expect(video).toHaveStyle('display: none');
   });
 
   it('renders video player when video loads successfully', async () => {
     render(<VideoPlayer {...defaultProps} />);
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Simulate video loaded
-    fireEvent.loadedData(video);
+    fireEvent.canPlay(video);
     
     await waitFor(() => {
       expect(screen.queryByText('Loading video...')).not.toBeInTheDocument();
-      expect(video).toHaveAttribute('src', '/videos/test-video.mp4');
-      expect(video).toHaveAttribute('aria-label', 'Test Wedding Video');
+      // The <video> does not have src, but <source> does
+      const source = video.querySelector('source');
+      expect(source).toHaveAttribute('src', '/videos/test-video.mp4');
+      expect(video).toHaveAttribute('aria-label', 'Test Wedding Video - Wedding video player');
     });
     
     expect(screen.getByText('Test Wedding Video')).toBeInTheDocument();
-    expect(screen.getByText(/Use the video controls to play, pause, and adjust the volume/)).toBeInTheDocument();
+    expect(screen.getByText(/Use the video controls to play, pause, adjust volume, and view in fullscreen/)).toBeInTheDocument();
   });
 
   it('displays error state when video fails to load', async () => {
     render(<VideoPlayer {...defaultProps} />);
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Simulate video error
     fireEvent.error(video);
     
     await waitFor(() => {
-      expect(screen.getByText('Unable to load video')).toBeInTheDocument();
-      expect(screen.getByText(/Sorry, there was a problem loading the video/)).toBeInTheDocument();
-      expect(screen.getByText('Try Again')).toBeInTheDocument();
+      expect(screen.getByText('Could not load the video. Please try refreshing the page.')).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: 'Try Again' })).toBeInTheDocument();
     });
   });
 
   it('allows retry after error', async () => {
     render(<VideoPlayer {...defaultProps} />);
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Simulate video error
     fireEvent.error(video);
@@ -94,17 +97,17 @@ describe('VideoPlayer', () => {
   it('has proper accessibility attributes', async () => {
     render(<VideoPlayer {...defaultProps} />);
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
-    expect(video).toHaveAttribute('aria-label', 'Test Wedding Video');
+    expect(video).toHaveAttribute('aria-label', 'Test Wedding Video - Wedding video player');
     expect(video).toHaveAttribute('controls');
     
     // Simulate video loaded
-    fireEvent.loadedData(video);
+    fireEvent.canPlay(video);
     
     await waitFor(() => {
-      const title = screen.getByRole('heading', { level: 3 });
-      expect(title).toHaveTextContent('Test Wedding Video');
+      const title = screen.getByText('Test Wedding Video');
+      expect(title).toBeInTheDocument();
     });
   });
 
@@ -117,13 +120,13 @@ describe('VideoPlayer', () => {
   it('handles missing title gracefully', async () => {
     render(<VideoPlayer src="/videos/test-video.mp4" />);
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Simulate video loaded
-    fireEvent.loadedData(video);
+    fireEvent.canPlay(video);
     
     await waitFor(() => {
-      expect(screen.queryByRole('heading')).not.toBeInTheDocument();
+      expect(screen.getByText('Wedding Video')).toBeInTheDocument(); // default title
     });
   });
 
@@ -133,14 +136,14 @@ describe('VideoPlayer', () => {
     // Should start in loading state
     expect(screen.getByText('Loading video...')).toBeInTheDocument();
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Simulate loadstart event
     fireEvent.loadStart(video);
     expect(screen.getByText('Loading video...')).toBeInTheDocument();
     
     // Simulate video loaded
-    fireEvent.loadedData(video);
+    fireEvent.canPlay(video);
     
     await waitFor(() => {
       expect(screen.queryByText('Loading video...')).not.toBeInTheDocument();
@@ -153,7 +156,7 @@ describe('VideoPlayer', () => {
     // Loading state
     expect(document.querySelector('.video-loading')).toBeInTheDocument();
     
-    const video = screen.getByRole('application');
+    const video = screen.getByTestId('video-player');
     
     // Error state
     fireEvent.error(video);
@@ -165,7 +168,7 @@ describe('VideoPlayer', () => {
     // Retry and load successfully
     const retryButton = screen.getByText('Try Again');
     fireEvent.click(retryButton);
-    fireEvent.loadedData(video);
+    fireEvent.canPlay(video);
     
     await waitFor(() => {
       expect(document.querySelector('.video-container')).toBeInTheDocument();

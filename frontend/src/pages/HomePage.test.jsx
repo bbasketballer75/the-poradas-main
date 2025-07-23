@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -14,11 +15,10 @@ describe('HomePage', () => {
     );
   };
 
-  it('renders the main heading', () => {
+  it('renders welcome message and main CTA', () => {
     renderWithRouter(<HomePage />);
-    
-    const heading = screen.getByRole('heading', { level: 1 });
-    expect(heading).toBeInTheDocument();
+    expect(screen.getByRole('heading', { name: /Austin & Jordyn/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /View Album/i })).toBeInTheDocument();
   });
 
   it('displays welcome message and navigation elements', () => {
