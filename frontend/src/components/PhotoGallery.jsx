@@ -18,7 +18,7 @@ const PhotoGallery = ({ refreshKey }) => {
         setRetryCount(0); // Reset retry count on success
       } catch (err) {
         console.error('Error fetching album media:', err);
-        
+
         // More specific error messages based on error type
         if (err.response?.status === 404) {
           setError('Album not found. Please check back later.');
@@ -38,7 +38,7 @@ const PhotoGallery = ({ refreshKey }) => {
   }, [refreshKey, retryCount]); // Include retryCount to trigger refetch
 
   const handleRetry = () => {
-    setRetryCount(prev => prev + 1);
+    setRetryCount((prev) => prev + 1);
   };
 
   const handleImageError = (e) => {
@@ -65,11 +65,7 @@ const PhotoGallery = ({ refreshKey }) => {
     return (
       <div className="error-container" role="alert" aria-live="assertive">
         <p className="error-message">{error}</p>
-        <button 
-          onClick={handleRetry}
-          className="retry-button"
-          aria-label="Retry loading album"
-        >
+        <button onClick={handleRetry} className="retry-button" aria-label="Retry loading album">
           Try Again
         </button>
       </div>
@@ -89,8 +85,8 @@ const PhotoGallery = ({ refreshKey }) => {
             {media.map((item, index) => (
               <div key={item._id} className="gallery-item">
                 {item.mimetype.startsWith('image/') && (
-                  <img 
-                    src={`/${item.filepath}`} 
+                  <img
+                    src={`/${item.filepath}`}
                     alt={`Wedding photo ${index + 1}, uploaded ${new Date(item.timestamp).toLocaleDateString()}`}
                     loading="lazy"
                     onError={handleImageError}
@@ -98,11 +94,11 @@ const PhotoGallery = ({ refreshKey }) => {
                   />
                 )}
                 {item.mimetype.startsWith('video/') && (
-                  <video 
-                    src={`/${item.filepath}`} 
-                    controls 
-                    muted 
-                    loop 
+                  <video
+                    src={`/${item.filepath}`}
+                    controls
+                    muted
+                    loop
                     playsInline
                     onError={handleVideoError}
                     className="gallery-video"

@@ -28,7 +28,9 @@ const OrientationOverlay = () => {
       <div className="orientation-content scale-in">
         <div className="orientation-icon">↻</div>
         <h2 className="orientation-title">Please Rotate Your Device</h2>
-        <p className="orientation-message">For the best experience, view this site in landscape mode.</p>
+        <p className="orientation-message">
+          For the best experience, view this site in landscape mode.
+        </p>
         <button className="btn" onClick={handleForceLandscape}>
           Continue Anyway
         </button>

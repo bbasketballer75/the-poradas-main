@@ -13,7 +13,6 @@ export default defineConfig({
     onConsoleLog(log, type) {
       if (type === 'error') {
         // Print all error logs to help diagnose silent failures
-        // eslint-disable-next-line no-console
         console.error('Vitest error:', log);
       }
     },

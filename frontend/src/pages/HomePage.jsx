@@ -31,18 +31,22 @@ const HomePage = () => {
               <div className="col-lg-6">
                 <h2 className="section-title">Our Story</h2>
                 <p>
-                  From a chance meeting at a coffee shop to a lifetime of love.
-                  Our journey has been filled with laughter, adventure, and unwavering support for one another.
-                  We're thrilled to share our special day with you.
+                  From a chance meeting at a coffee shop to a lifetime of love. Our journey has been
+                  filled with laughter, adventure, and unwavering support for one another.
+                  We&apos;re thrilled to share our special day with you.
                 </p>
                 <p>
-                  We are so incredibly excited to start this next chapter of our lives
-                  as husband and wife, and we feel so blessed to be able to share this
-                  momentous occasion with you, our cherished friends and family.
+                  We are so incredibly excited to start this next chapter of our lives as husband
+                  and wife, and we feel so blessed to be able to share this momentous occasion with
+                  you, our cherished friends and family.
                 </p>
               </div>
               <div className="col-lg-6 text-center">
-                <img src="/images/engagement.jpg" alt="Our Engagement" className="img-fluid rounded-circle shadow-lg" />
+                <img
+                  src="/images/engagement.jpg"
+                  alt="Our Engagement"
+                  className="img-fluid rounded-circle shadow-lg"
+                />
               </div>
             </div>
           </div>
@@ -56,8 +60,12 @@ const HomePage = () => {
                 <div className="card h-100 shadow-sm">
                   <div className="card-body">
                     <h3 className="card-title">Photo & Video Album</h3>
-                    <p className="card-text">View photos from our special day and upload your own memories.</p>
-                    <Link to="/album" className="btn btn-primary">View Album</Link>
+                    <p className="card-text">
+                      View photos from our special day and upload your own memories.
+                    </p>
+                    <Link to="/album" className="btn btn-primary">
+                      View Album
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -66,7 +74,9 @@ const HomePage = () => {
                   <div className="card-body">
                     <h3 className="card-title">Digital Guestbook</h3>
                     <p className="card-text">Leave us a message to commemorate the occasion.</p>
-                    <Link to="/guestbook" className="btn btn-primary">Sign Guestbook</Link>
+                    <Link to="/guestbook" className="btn btn-primary">
+                      Sign Guestbook
+                    </Link>
                   </div>
                 </div>
               </div>
@@ -74,8 +84,12 @@ const HomePage = () => {
                 <div className="card h-100 shadow-sm">
                   <div className="card-body">
                     <h3 className="card-title">Visitor Map</h3>
-                    <p className="card-text">See where all of our wonderful guests are joining from.</p>
-                    <Link to="/map" className="btn btn-primary">View Map</Link>
+                    <p className="card-text">
+                      See where all of our wonderful guests are joining from.
+                    </p>
+                    <Link to="/map" className="btn btn-primary">
+                      View Map
+                    </Link>
                   </div>
                 </div>
               </div>

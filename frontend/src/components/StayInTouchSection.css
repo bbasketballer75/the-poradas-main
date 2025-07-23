@@ -10,7 +10,7 @@
 .stayintouch-content {
   max-width: 600px;
   margin: 0 auto;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: var(--border-radius-large);
   box-shadow: var(--shadow-medium);
   padding: 2rem 1.5rem;

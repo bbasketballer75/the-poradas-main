@@ -1,9 +1,7 @@
-
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { describe, it, expect, vi, beforeEach, afterEach, beforeAll } from 'vitest';
-
 
 // Always mock getAlbumMedia before importing PhotoGallery
 let mockGetAlbumMedia;
@@ -15,7 +13,6 @@ beforeAll(async () => {
   PhotoGallery = (await import('./PhotoGallery')).default;
 });
 
-
 describe('PhotoGallery', () => {
   beforeEach(() => {
     mockGetAlbumMedia = vi.fn();
@@ -25,7 +22,9 @@ describe('PhotoGallery', () => {
   });
 
   it('renders loading state initially', () => {
-    mockGetAlbumMedia.mockImplementation(() => new Promise(resolve => setTimeout(() => resolve({ data: [] }), 100)));
+    mockGetAlbumMedia.mockImplementation(
+      () => new Promise((resolve) => setTimeout(() => resolve({ data: [] }), 100))
+    );
     const { getByText } = render(<PhotoGallery refreshKey={0} />);
     expect(getByText('Loading album...')).toBeInTheDocument();
   });
@@ -46,15 +45,15 @@ describe('PhotoGallery', () => {
         filename: 'photo1.jpg',
         mimetype: 'image/jpeg',
         uploadDate: new Date().toISOString(),
-        metadata: { caption: 'Test Photo 1' }
+        metadata: { caption: 'Test Photo 1' },
       },
       {
         _id: '2',
         filename: 'photo2.jpg',
         mimetype: 'image/jpeg',
         uploadDate: new Date().toISOString(),
-        metadata: { caption: 'Test Photo 2' }
-      }
+        metadata: { caption: 'Test Photo 2' },
+      },
     ];
     mockGetAlbumMedia.mockResolvedValue({ data: mockMedia });
     const { container } = render(<PhotoGallery refreshKey={0} />);
@@ -82,9 +81,16 @@ describe('PhotoGallery', () => {
     await waitFor(() => {
       expect(mockGetAlbumMedia).toHaveBeenCalledTimes(1);
     });
-    mockGetAlbumMedia.mockResolvedValue({ data: [
-      { _id: '1', filename: 'photo1.jpg', mimetype: 'image/jpeg', uploadDate: new Date().toISOString() }
-    ] });
+    mockGetAlbumMedia.mockResolvedValue({
+      data: [
+        {
+          _id: '1',
+          filename: 'photo1.jpg',
+          mimetype: 'image/jpeg',
+          uploadDate: new Date().toISOString(),
+        },
+      ],
+    });
     rerender(<PhotoGallery refreshKey={1} />);
     await waitFor(() => {
       expect(mockGetAlbumMedia).toHaveBeenCalledTimes(2);
@@ -92,9 +98,16 @@ describe('PhotoGallery', () => {
   });
 
   it('has proper accessibility structure', async () => {
-    mockGetAlbumMedia.mockResolvedValue({ data: [
-      { _id: '1', filename: 'photo1.jpg', mimetype: 'image/jpeg', uploadDate: new Date().toISOString() }
-    ] });
+    mockGetAlbumMedia.mockResolvedValue({
+      data: [
+        {
+          _id: '1',
+          filename: 'photo1.jpg',
+          mimetype: 'image/jpeg',
+          uploadDate: new Date().toISOString(),
+        },
+      ],
+    });
     const { container } = render(<PhotoGallery refreshKey={0} />);
     await waitFor(() => {
       expect(container.querySelector('.photo-gallery')).toBeInTheDocument();
@@ -116,7 +129,7 @@ describe('PhotoGallery', () => {
         filename: 'video1.mp4',
         mimetype: 'video/mp4',
         uploadDate: new Date().toISOString(),
-      }
+      },
     ];
     mockGetAlbumMedia.mockResolvedValue({ data: mockMedia });
     render(<PhotoGallery refreshKey={0} />);
@@ -126,9 +139,16 @@ describe('PhotoGallery', () => {
   });
 
   it('applies correct CSS classes', async () => {
-    mockGetAlbumMedia.mockResolvedValue({ data: [
-      { _id: '1', filename: 'photo1.jpg', mimetype: 'image/jpeg', uploadDate: new Date().toISOString() }
-    ] });
+    mockGetAlbumMedia.mockResolvedValue({
+      data: [
+        {
+          _id: '1',
+          filename: 'photo1.jpg',
+          mimetype: 'image/jpeg',
+          uploadDate: new Date().toISOString(),
+        },
+      ],
+    });
     const { container } = render(<PhotoGallery refreshKey={0} />);
     await waitFor(() => {
       const galleryContainer = container.querySelector('.photo-gallery');

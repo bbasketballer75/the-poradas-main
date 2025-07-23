@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
@@ -8,11 +7,7 @@ import { describe, it, expect } from 'vitest';
 
 describe('HomePage', () => {
   const renderWithRouter = (component) => {
-    return render(
-      <MemoryRouter>
-        {component}
-      </MemoryRouter>
-    );
+    return render(<MemoryRouter>{component}</MemoryRouter>);
   };
 
   it('renders welcome message and main CTA', () => {
@@ -23,7 +18,7 @@ describe('HomePage', () => {
 
   it('displays welcome message and navigation elements', () => {
     renderWithRouter(<HomePage />);
-    
+
     // Should have some welcoming content
     const homeContainer = document.querySelector('.home-page');
     expect(homeContainer).toBeInTheDocument();
@@ -31,11 +26,11 @@ describe('HomePage', () => {
 
   it('has proper accessibility structure', () => {
     renderWithRouter(<HomePage />);
-    
+
     // Main heading should be present and accessible
     const mainHeading = screen.getByRole('heading', { level: 1 });
     expect(mainHeading).toBeVisible();
-    
+
     // Page should have proper structure
     const homeContainer = document.querySelector('.home-page');
     expect(homeContainer).toBeInTheDocument();
@@ -49,7 +44,7 @@ describe('HomePage', () => {
 
   it('applies correct CSS classes', () => {
     renderWithRouter(<HomePage />);
-    
+
     const homeContainer = document.querySelector('.home-page');
     expect(homeContainer).toBeInTheDocument();
     expect(homeContainer).toHaveClass('home-page');
@@ -57,10 +52,10 @@ describe('HomePage', () => {
 
   it('is responsive and mobile-friendly', () => {
     renderWithRouter(<HomePage />);
-    
+
     const homeContainer = document.querySelector('.home-page');
     expect(homeContainer).toBeInTheDocument();
-    
+
     // Component should render properly on different screen sizes
     // (CSS media queries are tested through visual regression or manual testing)
     expect(homeContainer).toBeVisible();

@@ -9,7 +9,13 @@
   position: relative;
   padding: 120px 20px;
   color: white;
-  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 30%, var(--blush) 70%, var(--blush-light) 100%);
+  background: linear-gradient(
+    135deg,
+    var(--sage-green) 0%,
+    var(--eucalyptus) 30%,
+    var(--blush) 70%,
+    var(--blush-light) 100%
+  );
   background-attachment: fixed;
   min-height: 70vh;
   display: flex;
@@ -38,7 +44,12 @@
   right: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, transparent 20%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    transparent 20%,
+    rgba(255, 255, 255, 0.05) 50%,
+    transparent 70%
+  );
   animation: float 8s ease-in-out infinite;
   pointer-events: none;
 }
@@ -146,7 +157,12 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 50%, var(--eucalyptus) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--sage-green) 0%,
+    var(--blush) 50%,
+    var(--eucalyptus) 100%
+  );
 }
 
 .our-story-section img {
@@ -184,7 +200,12 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--eucalyptus) 0%, var(--sage-green) 50%, var(--blush) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--eucalyptus) 0%,
+    var(--sage-green) 50%,
+    var(--blush) 100%
+  );
 }
 
 .card {
@@ -249,13 +270,13 @@
   .hero-section {
     padding: 80px 20px;
   }
-  
+
   .video-section,
   .our-story-section,
   .explore-section {
     padding: 60px 20px;
   }
-  
+
   .our-story-section img {
     max-width: 280px;
   }
@@ -265,13 +286,13 @@
   .hero-section {
     padding: 60px 15px;
   }
-  
+
   .video-section,
   .our-story-section,
   .explore-section {
     padding: 40px 15px;
   }
-  
+
   .our-story-section img {
     max-width: 250px;
   }
@@ -287,11 +308,11 @@
   .card {
     animation: none;
   }
-  
+
   .hero-section::after {
     animation: none;
   }
-  
+
   .card:hover,
   .our-story-section img:hover,
   .btn-primary:hover {

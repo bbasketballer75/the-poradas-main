@@ -34,7 +34,9 @@
   overflow: hidden;
   max-width: 320px;
   margin: 0;
-  transition: transform 0.3s, box-shadow 0.3s;
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s;
 }
 
 .highlight-card:hover {
@@ -54,5 +56,5 @@
   font-size: 1.1rem;
   color: var(--charcoal);
   padding: 1.2rem 1rem 1.5rem 1rem;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
 }

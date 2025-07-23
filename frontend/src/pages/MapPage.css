@@ -13,7 +13,7 @@
   box-shadow: var(--shadow-large);
   overflow: hidden;
   margin: 2rem 0;
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
 }
 /* Responsive Design */
 @media (max-width: 768px) {

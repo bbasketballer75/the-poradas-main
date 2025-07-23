@@ -1,4 +1,3 @@
-
 describe('UploadForm', () => {
   it('renders upload form fields', () => {
     render(<UploadForm />);
@@ -27,7 +26,9 @@ describe('UploadForm', () => {
   it('renders the upload form', () => {
     render(<UploadForm />);
     expect(screen.getByText('Contribute to Our Album')).toBeInTheDocument();
-    expect(screen.getByText('Share your favorite moments from our special day!')).toBeInTheDocument();
+    expect(
+      screen.getByText('Share your favorite moments from our special day!')
+    ).toBeInTheDocument();
     expect(screen.getByRole('button', { name: /upload file/i })).toBeInTheDocument();
     expect(screen.getByLabelText('Select image or video to upload')).toBeInTheDocument();
   });
@@ -64,12 +65,16 @@ describe('UploadForm', () => {
     fireEvent.click(screen.getByRole('button', { name: /upload file/i }));
     await waitFor(() => {
       expect(vi.mocked(uploadMedia)).toHaveBeenCalledTimes(1);
-      expect(screen.getByRole('status')).toHaveTextContent('Thank you! Your file has been uploaded');
+      expect(screen.getByRole('status')).toHaveTextContent(
+        'Thank you! Your file has been uploaded'
+      );
     });
   });
 
   it('shows error if uploadMedia throws', async () => {
-    vi.mocked(uploadMedia).mockRejectedValueOnce({ response: { data: { message: 'Server error' } } });
+    vi.mocked(uploadMedia).mockRejectedValueOnce({
+      response: { data: { message: 'Server error' } },
+    });
     render(<UploadForm />);
     const fileInput = screen.getByLabelText('Select image or video to upload');
     const file = new File(['dummy'], 'photo.jpg', { type: 'image/jpeg' });
@@ -80,7 +85,12 @@ describe('UploadForm', () => {
 
   it('disables input and button while uploading', async () => {
     let resolveUpload;
-    vi.mocked(uploadMedia).mockImplementation(() => new Promise((resolve) => { resolveUpload = resolve; }));
+    vi.mocked(uploadMedia).mockImplementation(
+      () =>
+        new Promise((resolve) => {
+          resolveUpload = resolve;
+        })
+    );
     render(<UploadForm />);
     const fileInput = screen.getByLabelText('Select image or video to upload');
     const file = new File(['dummy'], 'photo.jpg', { type: 'image/jpeg' });
@@ -114,6 +124,8 @@ describe('UploadForm', () => {
     expect(fileInput).toHaveAttribute('aria-required', 'true');
     expect(fileInput).toHaveAttribute('aria-label', 'Select image or video to upload');
     // Form role is implicit, so just check the form exists
-    expect(screen.getByRole('form', { hidden: true }) || screen.getByRole('form')).toBeInTheDocument();
+    expect(
+      screen.getByRole('form', { hidden: true }) || screen.getByRole('form')
+    ).toBeInTheDocument();
   });
 });

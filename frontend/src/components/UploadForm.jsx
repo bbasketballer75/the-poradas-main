@@ -1,12 +1,21 @@
-
 import React, { useState, useRef } from 'react';
 import { uploadMedia } from '../services/api';
 import './UploadForm.css';
 
 const MAX_FILE_SIZE_MB = 100;
 const ACCEPTED_TYPES = [
-  'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/bmp', 'image/svg+xml',
-  'video/mp4', 'video/quicktime', 'video/webm', 'video/ogg', 'video/x-msvideo', 'video/x-matroska'
+  'image/jpeg',
+  'image/png',
+  'image/webp',
+  'image/gif',
+  'image/bmp',
+  'image/svg+xml',
+  'video/mp4',
+  'video/quicktime',
+  'video/webm',
+  'video/ogg',
+  'video/x-msvideo',
+  'video/x-matroska',
 ];
 
 const UploadForm = ({ onUploadSuccess }) => {
@@ -73,7 +82,9 @@ const UploadForm = ({ onUploadSuccess }) => {
       <h2>Contribute to Our Album</h2>
       <p>Share your favorite moments from our special day!</p>
       <form onSubmit={handleSubmit} aria-label="Upload media form">
-        <label htmlFor="media-upload" className="sr-only">Select image or video to upload</label>
+        <label htmlFor="media-upload" className="sr-only">
+          Select image or video to upload
+        </label>
         <input
           type="file"
           id="media-upload"
@@ -94,8 +105,16 @@ const UploadForm = ({ onUploadSuccess }) => {
           {isUploading ? 'Uploading...' : 'Upload File'}
         </button>
       </form>
-      {message && <p className="success-message" role="status">{message}</p>}
-      {error && <p className="error-message" role="alert">{error}</p>}
+      {message && (
+        <p className="success-message" role="status">
+          {message}
+        </p>
+      )}
+      {error && (
+        <p className="error-message" role="alert">
+          {error}
+        </p>
+      )}
     </div>
   );
 };

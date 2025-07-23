@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { getAllAlbumMedia, moderateMedia } from '../services/api';
 import './AdminDashboard.css';
@@ -33,9 +32,7 @@ const AdminDashboard = ({ adminKey }) => {
     try {
       await moderateMedia(photoId, isApproved, adminKey);
       setMedia((prevMedia) =>
-        prevMedia.map((item) =>
-          item._id === photoId ? { ...item, approved: isApproved } : item
-        )
+        prevMedia.map((item) => (item._id === photoId ? { ...item, approved: isApproved } : item))
       );
       setModAction((prev) => ({ ...prev, [photoId]: 'success' }));
       setSuccess(isApproved ? 'Media approved.' : 'Media denied and removed.');
@@ -46,14 +43,30 @@ const AdminDashboard = ({ adminKey }) => {
     }
   };
 
-  if (isLoading) return <div className="loading" role="status" aria-live="polite">Loading submissions...</div>;
-  if (error) return <div className="error-message" role="alert">{error}</div>;
+  if (isLoading)
+    return (
+      <div className="loading" role="status" aria-live="polite">
+        Loading submissions...
+      </div>
+    );
+  if (error)
+    return (
+      <div className="error-message" role="alert">
+        {error}
+      </div>
+    );
 
   return (
     <div className="admin-dashboard" aria-label="Admin moderation dashboard">
-      {success && <div className="form-success" role="status">{success}</div>}
+      {success && (
+        <div className="form-success" role="status">
+          {success}
+        </div>
+      )}
       {media.length === 0 ? (
-        <div className="empty-state" role="status">No submissions to moderate.</div>
+        <div className="empty-state" role="status">
+          No submissions to moderate.
+        </div>
       ) : (
         media.map((item) => (
           <div
@@ -67,7 +80,13 @@ const AdminDashboard = ({ adminKey }) => {
                 <img src={item.filepath} alt="Submission preview" />
               )}
               {item.mimetype.startsWith('video/') && (
-                <video src={item.filepath} controls muted loop aria-label="Submission video preview" />
+                <video
+                  src={item.filepath}
+                  controls
+                  muted
+                  loop
+                  aria-label="Submission video preview"
+                />
               )}
             </div>
             <div className="moderation-info">
@@ -101,7 +120,9 @@ const AdminDashboard = ({ adminKey }) => {
                 {modAction[item._id] === 'pending' ? 'Denying...' : 'Deny'}
               </button>
               {modAction[item._id] === 'error' && (
-                <span className="error-message" role="alert">Failed to update. Try again.</span>
+                <span className="error-message" role="alert">
+                  Failed to update. Try again.
+                </span>
               )}
             </div>
           </div>

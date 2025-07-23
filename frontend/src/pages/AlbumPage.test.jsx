@@ -8,22 +8,28 @@ import * as api from '../services/api';
 
 vi.mock('../services/api', () => {
   return {
-    getAlbumMedia: vi.fn(() => new Promise(resolve => setTimeout(() => resolve({ data: [
-      { _id: '1', filename: '1.jpg' },
-      { _id: '2', filename: '2.jpg' },
-    ] }), 50))),
+    getAlbumMedia: vi.fn(
+      () =>
+        new Promise((resolve) =>
+          setTimeout(
+            () =>
+              resolve({
+                data: [
+                  { _id: '1', filename: '1.jpg' },
+                  { _id: '2', filename: '2.jpg' },
+                ],
+              }),
+            50
+          )
+        )
+    ),
     uploadMedia: vi.fn(() => Promise.resolve({})),
   };
 });
 
-
 describe('AlbumPage', () => {
   const renderWithRouter = (component) => {
-    return render(
-      <MemoryRouter>
-        {component}
-      </MemoryRouter>
-    );
+    return render(<MemoryRouter>{component}</MemoryRouter>);
   };
 
   beforeEach(() => {

@@ -18,7 +18,12 @@
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 50%, var(--eucalyptus) 100%);
+  background: linear-gradient(
+    90deg,
+    var(--sage-green) 0%,
+    var(--blush) 50%,
+    var(--eucalyptus) 100%
+  );
   border-radius: var(--border-radius-large) var(--border-radius-large) 0 0;
 }
 
@@ -144,20 +149,20 @@
   .family-tree-container {
     padding: 2rem 1rem;
   }
-  
+
   .member-card {
     min-width: 180px;
     padding: 1.25rem 1.5rem;
   }
-  
+
   .member-name {
     font-size: 1.1rem;
   }
-  
+
   .member-role {
     font-size: 0.9rem;
   }
-  
+
   .children > .member {
     padding: 15px;
   }
@@ -168,11 +173,11 @@
     min-width: 160px;
     padding: 1rem;
   }
-  
+
   .member-name {
     font-size: 1rem;
   }
-  
+
   .member-role {
     font-size: 0.85rem;
   }
@@ -184,7 +189,7 @@
   .member {
     animation: none;
   }
-  
+
   .member-card:hover {
     transform: none;
   }

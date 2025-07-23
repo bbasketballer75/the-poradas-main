@@ -6,7 +6,9 @@ import { describe, it, expect, vi } from 'vitest';
 
 // Mock the api service
 vi.mock('../services/api', () => ({
-  getAllAlbumMedia: vi.fn(() => new Promise(resolve => setTimeout(() => resolve({ data: [] }), 100))),
+  getAllAlbumMedia: vi.fn(
+    () => new Promise((resolve) => setTimeout(() => resolve({ data: [] }), 100))
+  ),
   moderateMedia: vi.fn(),
 }));
 

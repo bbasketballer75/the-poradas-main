@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { getMapLocations as getPins } from '../services/api';
@@ -49,7 +48,9 @@ const MapPage = () => {
           <h2 className="section-title">Visitor Map</h2>
           <p className="subheading">See where our guests are joining from!</p>
           {error ? (
-            <div className="error-message" role="alert">{error}</div>
+            <div className="error-message" role="alert">
+              {error}
+            </div>
           ) : (
             <MapContainer
               center={[20, 0]}

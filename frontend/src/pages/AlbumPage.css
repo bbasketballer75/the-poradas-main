@@ -34,7 +34,7 @@
 }
 
 .photo-card {
-  background: rgba(255,255,255,0.95);
+  background: rgba(255, 255, 255, 0.95);
   border-radius: var(--border-radius-large);
   overflow: hidden;
   box-shadow: var(--shadow-medium);

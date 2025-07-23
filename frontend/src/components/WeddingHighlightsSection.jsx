@@ -6,18 +6,18 @@ const highlights = [
   {
     image: '/images/highlights/first-dance.jpg',
     alt: 'First Dance',
-    caption: 'Our magical first dance as husband and wife.'
+    caption: 'Our magical first dance as husband and wife.',
   },
   {
     image: '/images/highlights/cake-cutting.jpg',
     alt: 'Cake Cutting',
-    caption: 'Cutting the cake and sharing a sweet moment.'
+    caption: 'Cutting the cake and sharing a sweet moment.',
   },
   {
     image: '/images/highlights/sunset-kiss.jpg',
     alt: 'Sunset Kiss',
-    caption: 'A sunset kiss to remember.'
-  }
+    caption: 'A sunset kiss to remember.',
+  },
 ];
 
 const WeddingHighlightsSection = () => (

@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './VideoPlayer.css';
 
-const VideoPlayer = ({ src, title = "Wedding Video" }) => {
+const VideoPlayer = ({ src, title = 'Wedding Video' }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   // Removed unused isPlaying/setIsPlaying
@@ -18,17 +18,14 @@ const VideoPlayer = ({ src, title = "Wedding Video" }) => {
       setError('Could not load the video. Please try refreshing the page.');
     };
 
-
     video.addEventListener('loadstart', handleLoadStart);
     video.addEventListener('canplay', handleCanPlay);
     video.addEventListener('error', handleError);
-
 
     return () => {
       video.removeEventListener('loadstart', handleLoadStart);
       video.removeEventListener('canplay', handleCanPlay);
       video.removeEventListener('error', handleError);
-
     };
   }, []);
 
@@ -37,7 +34,7 @@ const VideoPlayer = ({ src, title = "Wedding Video" }) => {
       <div className="video-container">
         <div className="video-error" role="alert">
           <p>{error}</p>
-          <button 
+          <button
             onClick={() => {
               setError(null);
               setIsLoading(true);
@@ -73,8 +70,11 @@ const VideoPlayer = ({ src, title = "Wedding Video" }) => {
       >
         <source src={src} type="video/mp4" />
         <p>
-          Your browser doesn&apos;t support HTML video. 
-          <a href={src} download>Download the video</a> instead.
+          Your browser doesn&apos;t support HTML video.
+          <a href={src} download>
+            Download the video
+          </a>{' '}
+          instead.
         </p>
       </video>
       <div className="video-controls-info">
