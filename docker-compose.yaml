@@ -1,0 +1,30 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile # Use the root Dockerfile for backend
+    ports:
+      - "5000:5000"
+    environment:
+      PORT: 5000
+      MONGODB_URI: "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding-website"
+    volumes:
+      - ./public:/usr/src/app/public # Mount public assets
+      - ./uploads:/usr/src/app/uploads # Mount uploads directory
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: "http://backend:5000"
+    ports:
+      - "3000:80" # Map host port 3000 to container port 80 (Nginx)
+    environment:
+      # This variable tells the frontend where to find the backend API
+      # 'backend' is the service name in docker-compose, which resolves to its internal IP
+      VITE_API_BASE_URL: "http://backend:5000"
+    volumes:
+      - ./frontend/dist:/usr/share/nginx/html # Ensure dist is mounted for Nginx
+    depends_on:
+      - backend # Frontend needs backend to be up for API calls

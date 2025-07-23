@@ -2,5 +2,6 @@
     "geminicodeassist.agentYoloMode": true,
     "geminicodeassist.agentDebugMode": true,
     "geminicodeassist.project": "wedding-website-final",
-    "geminicodeassist.updateChannel": "Insiders"
+    "geminicodeassist.updateChannel": "Insiders",
+    "security.workspace.trust.untrustedFiles": "prompt"
 }

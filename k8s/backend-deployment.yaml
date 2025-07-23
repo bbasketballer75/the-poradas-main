@@ -20,3 +20,15 @@ spec:
           env:
             - name: MONGODB_URI
               value: "mongodb+srv://bbasketballer75:passw0rd@wedding-site-cluster.apkobf4.mongodb.net/wedding-website"
+            - name: ADMIN_SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: admin-secret
+                  key: ADMIN_SECRET_KEY
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "500m"
+              memory: "256Mi"

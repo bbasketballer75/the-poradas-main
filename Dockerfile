@@ -12,7 +12,7 @@ WORKDIR /usr/src/app
 # Install dependencies first to leverage Docker layer caching
 FROM base AS deps
 WORKDIR /usr/src/app
-COPY backend/package.json backend/package-lock.json* ./backend/
+COPY --chown=express:nodejs backend/package.json backend/package-lock.json* ./backend/
 RUN cd backend && npm install --production
 
 # --- Stage 3: Runner ---
@@ -21,15 +21,15 @@ FROM base AS runner
 WORKDIR /usr/src/app
 
 # Copy installed dependencies from the 'deps' stage
-COPY --from=deps /usr/src/app/backend/node_modules ./backend/node_modules
+COPY --from=deps --chown=express:nodejs /usr/src/app/backend/node_modules ./backend/node_modules
 
 # Copy the backend application code
-COPY backend/ ./backend/
+COPY --chown=express:nodejs backend/ ./backend/
 
 # Copy the public assets and uploads directory that the backend needs to serve
-COPY public/ ./public/
+COPY --chown=express:nodejs public/ ./public/
 # The uploads directory might not exist initially, so handle that
-COPY uploads/ ./uploads/
+COPY --chown=express:nodejs uploads/ ./uploads/
 
 # Your app binds to port 5000, so we'll expose that.
 # Cloud Run will automatically use the PORT environment variable it provides.
@@ -40,3 +40,8 @@ WORKDIR /usr/src/app/backend
 
 # Define the command to run your app
 CMD [ "npm", "start" ]
+
+# Create a non-root user and switch to it for security
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 express
+USER express
