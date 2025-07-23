@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { getGuestbookEntries, createGuestbookEntry } from '../services/api';
+import LoadingScreen from '../components/LoadingScreen';
 import './GuestbookPage.css';
 
 const GuestbookPage = () => {
@@ -45,7 +46,6 @@ const GuestbookPage = () => {
       setFormError('Name cannot exceed 100 characters.');
       return;
     }
-    setIsSubmitting(true);
     try {
       await createGuestbookEntry({ name, message });
       setName('');
@@ -53,81 +53,55 @@ const GuestbookPage = () => {
       setSuccess('Thank you for signing our guestbook!');
       const response = await getGuestbookEntries();
       setEntries(response.data);
-    } catch (err) {
-      if (err.response?.data?.message) {
-        setFormError(err.response.data.message);
-      } else {
-        setFormError('Could not submit your message. Please try again.');
-      }
+    } catch {
+      setFormError('Could not submit your message. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
-
   return (
     <div className="guestbook-page">
-      <h2 className="section-title">Digital Guestbook</h2>
-      <p className="subheading">Leave us a message! We'd love to hear from you.</p>
-      <div className="form-wrapper">
-        <form onSubmit={handleSubmit} aria-label="Guestbook form">
-          <div>
-            <label htmlFor="name" className="label">Your Name</label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="input"
-              maxLength={100}
-              aria-label="Your name (optional)"
-              autoComplete="name"
-              disabled={isSubmitting}
-            />
-          </div>
-          <div>
-            <label htmlFor="message" className="label">Your Message <span aria-hidden="true" style={{color: 'red'}}>*</span></label>
-            <textarea
-              id="message"
-              name="message"
-              rows={4}
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="textarea"
-              maxLength={500}
-              aria-label="Your message (required)"
-              required
-              disabled={isSubmitting}
-            ></textarea>
-          </div>
-          {formError && <div className="form-error" role="alert">{formError}</div>}
-          {success && <div className="form-success" role="status">{success}</div>}
-          <button type="submit" className="button" disabled={isSubmitting} aria-busy={isSubmitting}>
-            {isSubmitting ? 'Submitting...' : 'Submit Message'}
-          </button>
-        </form>
-      </div>
-
-      {isLoading ? (
-        <div className="loading" role="status" aria-live="polite">Loading messages...</div>
-      ) : error ? (
-        <div className="error-message" role="alert">{error}</div>
-      ) : (
-        <div className="messages" aria-live="polite">
-          {entries.length === 0 ? (
-            <div className="empty-state" role="status">No messages yet. Be the first to sign our guestbook!</div>
-          ) : (
-            entries.map((entry) => (
-              <div key={entry._id} className="message" tabIndex={0} aria-label={`Message from ${entry.name}`}>
-                <p className="message-name">{entry.name}</p>
-                <p className="message-text">{entry.message}</p>
-                <span className="message-date" aria-label="Date posted">
-                  {entry.timestamp && new Date(entry.timestamp).toLocaleDateString()}
-                </span>
-              </div>
-            ))
-          )}
-        </div>
+      {(isLoading || isSubmitting) && <LoadingScreen message={isSubmitting ? 'Submitting your message...' : 'Loading guestbook...'} />}
+      {!isLoading && !isSubmitting && (
+        error ? (
+          <div className="error-message" role="alert">{error}</div>
+        ) : (
+          <>
+            <h2 className="section-title">Sign Our Guestbook</h2>
+            <form className="guestbook-form" onSubmit={handleSubmit}>
+              <input
+                type="text"
+                placeholder="Your Name (optional)"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                maxLength={100}
+              />
+              <textarea
+                placeholder="Leave a message..."
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                maxLength={500}
+                required
+              />
+              {formError && <div className="form-error" role="alert">{formError}</div>}
+              {success && <div className="form-success" role="status">{success}</div>}
+              <button type="submit" disabled={isSubmitting}>
+                {isSubmitting ? 'Submitting...' : 'Sign Guestbook'}
+              </button>
+            </form>
+            <div className="guestbook-entries">
+              {entries.map((entry) => (
+                <div key={entry._id} className="guestbook-entry">
+                  <div className="entry-header">
+                    <span className="entry-name">{entry.name || 'Anonymous'}</span>
+                    <span className="entry-date">{new Date(entry.createdAt).toLocaleDateString()}</span>
+                  </div>
+                  <div className="entry-message">{entry.message}</div>
+                </div>
+              ))}
+            </div>
+          </>
+        )
       )}
     </div>
   );

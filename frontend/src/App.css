@@ -1,11 +1,286 @@
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 0;
   width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+}
+
+.app-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--ivory) 0%, var(--blush-pale) 30%, var(--sage-green-pale) 70%, var(--eucalyptus-light) 100%);
+  background-attachment: fixed;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Beautiful decorative elements */
+.app-container::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  right: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, transparent 20%, rgba(156, 175, 136, 0.03) 50%, transparent 70%);
+  animation: float 6s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.app-container::after {
+  content: '';
+  position: fixed;
+  bottom: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, transparent 20%, rgba(244, 194, 194, 0.03) 50%, transparent 70%);
+  animation: float 8s ease-in-out infinite reverse;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Main content wrapper */
+.main-content {
+  position: relative;
+  z-index: 2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .container {
   padding: 2rem;
   text-align: left;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* Page transitions */
+.page-enter {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.page-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.page-exit-active {
+  opacity: 0;
+  transform: translateY(-30px);
+  transition: opacity 0.4s ease-in, transform 0.4s ease-in;
+}
+
+/* Card Styles */
+.wedding-card {
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(10px);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(156, 175, 136, 0.1);
+  padding: 2rem;
+  margin: 1rem 0;
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+}
+
+.wedding-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 50%, var(--eucalyptus) 100%);
+}
+
+.wedding-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-large);
+}
+
+/* Button Styles */
+.wedding-button {
+  background: linear-gradient(135deg, var(--sage-green) 0%, var(--eucalyptus) 100%);
+  color: white;
+  border: none;
+  padding: 12px 32px;
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  box-shadow: var(--shadow-soft);
+  position: relative;
+  overflow: hidden;
+}
+
+.wedding-button:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+.wedding-button:active {
+  transform: translateY(0);
+}
+
+.wedding-button.primary {
+  background: linear-gradient(135deg, var(--blush) 0%, var(--blush-dark) 100%);
+}
+
+.wedding-button.secondary {
+  background: transparent;
+  color: var(--sage-green);
+  border: 2px solid var(--sage-green);
+}
+
+.wedding-button.secondary:hover {
+  background: var(--sage-green);
+  color: white;
+}
+
+/* Input Styles */
+.wedding-input {
+  width: 100%;
+  padding: 12px 16px;
+  border: 2px solid var(--sage-green-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  transition: var(--transition-smooth);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.wedding-input:focus {
+  outline: none;
+  border-color: var(--sage-green);
+  box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.1);
+  transform: translateY(-1px);
+}
+
+.wedding-input::placeholder {
+  color: var(--sage-green-light);
+  font-style: italic;
+}
+
+/* Textarea */
+.wedding-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 16px;
+  border: 2px solid var(--sage-green-light);
+  border-radius: var(--border-radius);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  resize: vertical;
+  transition: var(--transition-smooth);
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.wedding-textarea:focus {
+  outline: none;
+  border-color: var(--sage-green);
+  box-shadow: 0 0 0 3px rgba(156, 175, 136, 0.1);
+}
+
+/* Loading States */
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(250, 248, 245, 0.9);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.loading-content {
+  text-align: center;
+  padding: 2rem;
+  border-radius: var(--border-radius-large);
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: var(--shadow-large);
+}
+
+.loading-content h3 {
+  margin-bottom: 1rem;
+  color: var(--sage-green);
+  font-family: var(--font-script);
+  font-size: 2rem;
+}
+
+/* Error States */
+.error-message {
+  background: linear-gradient(135deg, var(--blush-pale) 0%, var(--blush-light) 100%);
+  color: var(--blush-dark);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--blush);
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.success-message {
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--eucalyptus-light) 100%);
+  color: var(--sage-green-dark);
+  padding: 1rem 1.5rem;
+  border-radius: var(--border-radius);
+  border: 1px solid var(--sage-green-light);
+  margin: 1rem 0;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container {
+    padding: 1rem;
+  }
+  
+  .wedding-card {
+    padding: 1.5rem;
+    margin: 0.75rem 0;
+  }
+  
+  .wedding-button {
+    padding: 10px 24px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Focus management for accessibility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Beautiful focus indicators */
+*:focus-visible {
+  outline: 2px solid var(--sage-green);
+  outline-offset: 2px;
+  border-radius: 4px;
 }

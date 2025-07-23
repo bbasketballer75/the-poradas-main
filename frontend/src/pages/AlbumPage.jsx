@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { getAlbumMedia, uploadMedia } from '../services/api';
+import LoadingScreen from '../components/LoadingScreen';
 import './AlbumPage.css';
 
 const AlbumPage = () => {
   const [photos, setPhotos] = useState([]);
   const [file, setFile] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isUploading, setIsUploading] = useState(false);
 
   useEffect(() => {
     const fetchPhotos = async () => {
+      setIsLoading(true);
       const response = await getAlbumMedia();
       setPhotos(response.data);
+      setIsLoading(false);
     };
     fetchPhotos();
   }, []);
@@ -20,29 +25,36 @@ const AlbumPage = () => {
 
   const handleUpload = async () => {
     if (file) {
+      setIsUploading(true);
       const formData = new FormData();
       formData.append('photo', file);
       await uploadMedia(formData);
       setFile(null);
       const response = await getAlbumMedia();
       setPhotos(response.data);
+      setIsUploading(false);
     }
   };
 
   return (
     <div className="album-page">
-      <h2 className="section-title">Photo & Video Album</h2>
-      <div className="upload-section">
-        <input type="file" onChange={handleFileChange} />
-        <button onClick={handleUpload}>Upload Photo</button>
-      </div>
-      <div className="photo-grid">
-        {photos.map((photo) => (
-          <div key={photo._id} className="photo-card">
-            <img src={`/uploads/${photo.filename}`} alt={photo.filename} />
+      {(isLoading || isUploading) && <LoadingScreen message={isUploading ? 'Uploading photo...' : 'Loading album...'} />}
+      {!isLoading && !isUploading && (
+        <>
+          <h2 className="section-title">Photo & Video Album</h2>
+          <div className="upload-section">
+            <input type="file" onChange={handleFileChange} />
+            <button onClick={handleUpload}>Upload Photo</button>
           </div>
-        ))}
-      </div>
+          <div className="photo-grid">
+            {photos.map((photo) => (
+              <div key={photo._id} className="photo-card">
+                <img src={`/uploads/${photo.filename}`} alt={photo.filename} />
+              </div>
+            ))}
+          </div>
+        </>
+      )}
     </div>
   );
 };

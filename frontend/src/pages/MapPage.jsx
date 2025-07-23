@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import { getMapLocations as getPins } from '../services/api';
+import LoadingScreen from '../components/LoadingScreen';
 import './MapPage.css';
 import 'leaflet/dist/leaflet.css';
 
@@ -42,42 +43,34 @@ const MapPage = () => {
 
   return (
     <div className="map-page">
-      <h2 className="section-title">Visitor Map</h2>
-      <p className="subheading">See where our guests are joining from!</p>
-      {isLoading ? (
-        <div className="loading" role="status" aria-live="polite">Loading map...</div>
-      ) : error ? (
-        <div className="error-message" role="alert">{error}</div>
-      ) : (
-        <MapContainer
-          center={[20, 0]}
-          zoom={2}
-          // onClick={handleMapClick}
-          className="map-container"
-          aria-label="World map showing guest locations"
-        >
-          <TileLayer
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          />
-          {pins.length === 0 ? (
-            <Popup position={[20, 0]} open={true}>
-              No guests have been logged yet.
-            </Popup>
+      {isLoading && <LoadingScreen message="Loading map..." />}
+      {!isLoading && (
+        <>
+          <h2 className="section-title">Visitor Map</h2>
+          <p className="subheading">See where our guests are joining from!</p>
+          {error ? (
+            <div className="error-message" role="alert">{error}</div>
           ) : (
-            pins.map((pin, idx) => (
-              <Marker key={pin._id || idx} position={[pin.lat, pin.lon]}>
-                <Popup>
-                  <span>
-                    Guest from {pin.city ? `${pin.city}, ` : ''}{pin.country || 'Unknown'}
-                  </span>
-                </Popup>
-              </Marker>
-            ))
+            <MapContainer
+              center={[20, 0]}
+              zoom={2}
+              // onClick={handleMapClick}
+              className="map-container"
+              aria-label="World map showing guest locations"
+            >
+              <TileLayer
+                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
+                // ...existing code...
+              />
+              {pins.map((pin, idx) => (
+                <Marker key={idx} position={[pin.lat, pin.lng]}>
+                  <Popup>{pin.label || 'Guest'}</Popup>
+                </Marker>
+              ))}
+            </MapContainer>
           )}
-        </MapContainer>
+        </>
       )}
-      {/* {success && <div className="form-success" role="status">{success}</div>} */}
     </div>
   );
 };
