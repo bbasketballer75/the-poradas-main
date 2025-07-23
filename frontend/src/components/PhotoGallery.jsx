@@ -6,44 +6,125 @@ const PhotoGallery = ({ refreshKey }) => {
   const [media, setMedia] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [retryCount, setRetryCount] = useState(0);
 
   useEffect(() => {
     const fetchMedia = async () => {
       try {
         setIsLoading(true);
+        setError(null);
         const response = await getAlbumMedia();
         setMedia(response.data);
-        setError(null);
+        setRetryCount(0); // Reset retry count on success
       } catch (err) {
-        setError('Could not fetch the album. Please try again later.');
-        console.error(err);
+        console.error('Error fetching album media:', err);
+        
+        // More specific error messages based on error type
+        if (err.response?.status === 404) {
+          setError('Album not found. Please check back later.');
+        } else if (err.response?.status >= 500) {
+          setError('Server error. Please try again in a few moments.');
+        } else if (err.code === 'NETWORK_ERROR' || !err.response) {
+          setError('Network connection issue. Please check your internet connection.');
+        } else {
+          setError('Could not fetch the album. Please try again later.');
+        }
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchMedia();
-  }, [refreshKey]); // Refreshes when the key changes
+  }, [refreshKey, retryCount]); // Include retryCount to trigger refetch
+
+  const handleRetry = () => {
+    setRetryCount(prev => prev + 1);
+  };
+
+  const handleImageError = (e) => {
+    e.target.src = '/placeholder-image.jpg'; // Fallback image
+    e.target.alt = 'Image failed to load';
+    console.warn('Image failed to load:', e.target.src);
+  };
+
+  const handleVideoError = (e) => {
+    console.warn('Video failed to load:', e.target.src);
+    e.target.style.display = 'none'; // Hide broken video
+  };
 
   if (isLoading) {
-    return <p>Loading album...</p>;
+    return (
+      <div className="loading-container" role="status" aria-live="polite">
+        <div className="loading-spinner" aria-hidden="true"></div>
+        <p>Loading album...</p>
+      </div>
+    );
   }
 
   if (error) {
-    return <p className="error-message">{error}</p>;
+    return (
+      <div className="error-container" role="alert" aria-live="assertive">
+        <p className="error-message">{error}</p>
+        <button 
+          onClick={handleRetry}
+          className="retry-button"
+          aria-label="Retry loading album"
+        >
+          Try Again
+        </button>
+      </div>
+    );
   }
 
   return (
-    <div className="photo-gallery">
+    <div className="photo-gallery" role="main" aria-label="Wedding photo gallery">
       {media.length === 0 ? (
-        <p>The album is currently empty. Be the first to contribute!</p>
+        <div className="empty-state" role="status">
+          <p>The album is currently empty. Be the first to contribute!</p>
+        </div>
       ) : (
-        media.map((item) => (
-          <div key={item._id} className="gallery-item">
-            {item.mimetype.startsWith('image/') && <img src={item.filepath} alt="Wedding album" loading="lazy" />}
-            {item.mimetype.startsWith('video/') && <video src={item.filepath} controls muted loop playsInline />}
+        <>
+          <h2 className="sr-only">{media.length} wedding photos and videos</h2>
+          <div className="gallery-grid">
+            {media.map((item, index) => (
+              <div key={item._id} className="gallery-item">
+                {item.mimetype.startsWith('image/') && (
+                  <img 
+                    src={`/${item.filepath}`} 
+                    alt={`Wedding photo ${index + 1}, uploaded ${new Date(item.timestamp).toLocaleDateString()}`}
+                    loading="lazy"
+                    onError={handleImageError}
+                    className="gallery-image"
+                  />
+                )}
+                {item.mimetype.startsWith('video/') && (
+                  <video 
+                    src={`/${item.filepath}`} 
+                    controls 
+                    muted 
+                    loop 
+                    playsInline
+                    onError={handleVideoError}
+                    className="gallery-video"
+                    aria-label={`Wedding video ${index + 1}, uploaded ${new Date(item.timestamp).toLocaleDateString()}`}
+                  >
+                    <p>Your browser does not support the video tag.</p>
+                  </video>
+                )}
+                <div className="item-info">
+                  <small className="upload-date" aria-label="Upload date">
+                    {new Date(item.timestamp).toLocaleDateString()}
+                  </small>
+                  {item.uploadedBy && item.uploadedBy !== 'Anonymous Guest' && (
+                    <small className="uploaded-by" aria-label="Uploaded by">
+                      by {item.uploadedBy}
+                    </small>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
-        ))
+        </>
       )}
     </div>
   );

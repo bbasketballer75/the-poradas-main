@@ -1,6 +1,23 @@
 import GuestbookEntry from '../models/GuestbookEntry.js';
 import asyncHandler from '../utils/asyncHandler.js';
-import Joi from 'joi';
+import { body, validationResult } from 'express-validator';
+
+// Validation middleware for guestbook entries
+export const validateGuestbookEntry = [
+  body('name')
+    .optional()
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Name cannot exceed 100 characters')
+    .escape(), // Escape HTML entities
+  body('message')
+    .notEmpty()
+    .withMessage('A message is required to sign the guestbook.')
+    .trim()
+    .isLength({ min: 1, max: 500 })
+    .withMessage('Message must be between 1 and 500 characters')
+    .escape(), // Escape HTML entities
+];
 
 /**
  * @desc    Get all guestbook entries
@@ -12,25 +29,31 @@ export const getGuestbookEntries = asyncHandler(async (req, res) => {
   res.json(entries);
 });
 
-// Define a validation schema
-const guestbookSchema = Joi.object({
-    name: Joi.string().min(2).max(50).required(),
-    message: Joi.string().min(5).max(500).required()
-});
-
 /**
  * @desc    Add a new guestbook entry
  * @route   POST /api/guestbook
  * @access  Public
  */
 export const createGuestbookEntry = asyncHandler(async (req, res) => {
-  // Validate the request body
-  const { error, value } = guestbookSchema.validate(req.body);
-  if (error) {
-      return res.status(400).json({ message: error.details[0].message });
+  // Check for validation errors
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    res.status(400);
+    throw new Error(errors.array().map(err => err.msg).join(', '));
   }
 
-  // If validation passes, proceed to create the entry
-  const entry = await GuestbookEntry.create(value);
+  const { name, message } = req.body;
+
+  if (!message || message.trim() === '') {
+    res.status(400);
+    throw new Error('A message is required to sign the guestbook.');
+  }
+
+  const entry = await GuestbookEntry.create({
+    name: name || 'Anonymous',
+    message: message.trim(),
+  });
+
   res.status(201).json(entry);
+});
 });

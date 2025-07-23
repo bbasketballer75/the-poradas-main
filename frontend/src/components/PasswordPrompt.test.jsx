@@ -1,8 +1,22 @@
+import { vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
+
+describe('PasswordPrompt', () => {
+  it('renders password input and submit button', () => {
+    render(<PasswordPrompt open={true} onSubmit={() => {}} onClose={() => {}} />);
+    expect(screen.getByPlaceholderText(/Enter admin key/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /Unlock/i })).toBeInTheDocument();
+  });
+
+  it('does not render when open is false', () => {
+    render(<PasswordPrompt open={false} onSubmit={() => {}} onClose={() => {}} />);
+    expect(screen.queryByLabelText(/Password/i)).not.toBeInTheDocument();
+  });
+});
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import PasswordPrompt from './PasswordPrompt';
-import { describe, it, expect, vi } from 'vitest';
 
 describe('PasswordPrompt', () => {
   it('renders the password prompt and calls onCorrectPassword on submit', async () => {
