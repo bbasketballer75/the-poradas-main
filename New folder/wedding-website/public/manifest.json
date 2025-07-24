@@ -1,0 +1,16 @@
+{
+  "name": "Austin & Jordyn's Wedding",
+  "short_name": "Wedding",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#b48eae",
+  "description": "Austin & Jordyn's wedding celebration. Share memories, photos, and more!",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

@@ -1,0 +1,205 @@
+.admin-dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-top: 2rem;
+  max-width: 1200px;
+  margin: 2rem auto 0;
+  padding: 0 1rem;
+  font-family: var(--font-body);
+}
+
+.loading {
+  text-align: center;
+  padding: 3rem;
+  font-size: 1.2rem;
+  color: var(--sage-green-dark);
+}
+
+.error-message {
+  color: #dc3545;
+  background-color: #f8d7da;
+  border: 1px solid #f5c6cb;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem;
+  text-align: center;
+  font-weight: 500;
+  background: linear-gradient(135deg, var(--blush-pale) 0%, var(--blush-light) 100%);
+}
+
+.form-success {
+  color: #155724;
+  background-color: #d4edda;
+  border: 1px solid #c3e6cb;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-weight: 500;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--eucalyptus-light) 100%);
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: #666;
+  font-size: 1.1rem;
+  font-style: italic;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--eucalyptus-light) 100%);
+  border-radius: var(--border-radius-large);
+  margin: 1rem 0;
+  box-shadow: var(--shadow-soft);
+}
+
+.moderation-card {
+  display: grid;
+  grid-template-columns: 200px 1fr auto;
+  gap: 1.5rem;
+  align-items: center;
+  background-color: #fff;
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  border-left: 5px solid #ffc107; /* Pending */
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.moderation-card:hover,
+.moderation-card:focus {
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+  font-family: var(--font-body);
+  outline: none;
+}
+
+.moderation-card.is-approved {
+  border-left-color: var(--sage-green); /* Approved */
+}
+.media-preview {
+  width: 200px;
+  height: 120px;
+  overflow: hidden;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.media-preview img,
+.media-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.moderation-info {
+  flex: 1;
+}
+
+.moderation-info p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+.moderation-info strong {
+  color: #333;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--eucalyptus-light) 100%);
+  border-radius: var(--border-radius-large);
+  margin: 1rem 0;
+  box-shadow: var(--shadow-soft);
+  font-weight: 600;
+}
+
+.moderation-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  min-width: 120px;
+}
+
+.moderation-actions button {
+  padding: 0.5rem 1rem;
+  border: none;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  border-left-color: var(--sage-green); /* Approved */
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+  position: relative;
+}
+
+.approve-button {
+  background-color: #28a745;
+  color: white;
+}
+
+.approve-button:hover:not(:disabled) {
+  background-color: #218838;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--blush-pale) 100%);
+  box-shadow: var(--shadow-soft);
+  transform: translateY(-1px);
+}
+
+.approve-button:disabled {
+  background-color: #6c757d;
+  font-family: var(--font-heading);
+  cursor: not-allowed;
+  transform: none;
+}
+.deny-button {
+  background-color: #dc3545;
+  color: white;
+}
+.deny-button:hover:not(:disabled) {
+  background-color: #c82333;
+  transform: translateY(-1px);
+}
+.deny-button:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .moderation-card {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1rem;
+  }
+  .media-preview {
+    width: 100%;
+    max-width: 300px;
+    margin: 0 auto;
+  }
+  .moderation-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .moderation-actions button {
+    flex: 1;
+    max-width: 120px;
+  }
+}
+
+.deny-button {
+  background-color: #dc3545;
+  color: white;
+}
+
+.moderation-actions button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+  opacity: 0.6;
+}

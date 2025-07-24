@@ -1,0 +1,104 @@
+.wedding-party-page {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--blush-pale) 100%);
+  min-height: 100vh;
+  font-family: var(--font-body);
+}
+
+.party-section {
+  margin-bottom: 2.5rem;
+}
+
+.subheading {
+  font-size: 1.7rem;
+  margin-bottom: 1.2rem;
+  font-family: var(--font-heading);
+  color: var(--sage-green-dark);
+  letter-spacing: 0.5px;
+}
+
+.party-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.party-member-card {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: var(--border-radius-large);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(156, 175, 136, 0.12);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.7s ease-out;
+}
+.party-member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
+}
+.party-member-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-large);
+}
+
+.party-member-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-soft);
+  border: 3px solid var(--sage-green-light);
+  transition: var(--transition-smooth);
+}
+.party-member-card:hover .party-member-image {
+  border-color: var(--sage-green);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+.party-member-name {
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
+  color: var(--sage-green-dark);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .wedding-party-page {
+    padding: 1.5rem 0.5rem;
+  }
+  .party-grid {
+    gap: 1rem;
+  }
+  .party-member-card {
+    padding: 1.25rem 1rem;
+  }
+  .party-member-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wedding-party-page {
+    padding: 1rem 0.25rem;
+  }
+  .party-member-card {
+    padding: 0.75rem 0.5rem;
+  }
+  .party-member-image {
+    width: 70px;
+    height: 70px;
+  }
+}

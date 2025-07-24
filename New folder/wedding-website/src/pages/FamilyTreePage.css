@@ -1,0 +1,147 @@
+.family-tree-page {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--blush-pale) 100%);
+  min-height: 100vh;
+  font-family: var(--font-body);
+}
+
+.family-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+  justify-content: center;
+  padding: 1rem 0;
+}
+
+.family-member-card {
+  background: rgba(255, 255, 255, 0.97);
+  border-radius: var(--border-radius-large);
+  padding: 2rem 1.5rem;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid rgba(156, 175, 136, 0.12);
+  transition: var(--transition-smooth);
+  position: relative;
+  overflow: hidden;
+  animation: fadeInUp 0.7s ease-out;
+}
+.family-member-card-clickable {
+  cursor: pointer;
+  box-shadow: var(--shadow-large);
+  outline: none;
+  position: relative;
+  transition:
+    box-shadow 0.2s,
+    transform 0.2s;
+}
+.family-member-card-clickable:focus-visible {
+  box-shadow:
+    0 0 0 4px var(--blush),
+    var(--shadow-large);
+  z-index: 2;
+}
+.family-member-card-clickable:hover .family-member-image,
+.family-member-card-clickable:focus .family-member-image {
+  border-color: var(--blush);
+  filter: brightness(1.08) saturate(1.1);
+}
+.family-member-card-clickable:hover .family-member-play-btn,
+.family-member-card-clickable:focus .family-member-play-btn {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.family-member-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
+}
+.family-member-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: var(--shadow-large);
+}
+
+.family-member-image {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-soft);
+  border: 3px solid var(--sage-green-light);
+  transition: var(--transition-smooth);
+}
+.family-member-play-btn {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  font-size: 3rem;
+  color: var(--blush);
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+  opacity: 0.85;
+  pointer-events: none;
+  transition:
+    opacity 0.2s,
+    transform 0.2s;
+  z-index: 1;
+}
+.family-member-card:hover .family-member-image {
+  border-color: var(--sage-green);
+  filter: brightness(1.05) saturate(1.1);
+}
+
+.family-member-name {
+  font-size: 1.2rem;
+  font-family: var(--font-heading);
+  color: var(--sage-green-dark);
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.family-member-relation {
+  font-size: 1rem;
+  color: var(--sage-green);
+  font-family: var(--font-body);
+  font-style: italic;
+  opacity: 0.9;
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .family-tree-page {
+    padding: 1.5rem 0.5rem;
+  }
+  .family-grid {
+    gap: 1rem;
+  }
+  .family-member-card {
+    padding: 1.25rem 1rem;
+  }
+  .family-member-image {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .family-tree-page {
+    padding: 1rem 0.25rem;
+  }
+  .family-member-card {
+    padding: 0.75rem 0.5rem;
+  }
+  .family-member-image {
+    width: 70px;
+    height: 70px;
+  }
+}

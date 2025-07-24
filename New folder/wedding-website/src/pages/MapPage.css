@@ -1,0 +1,36 @@
+.map-page {
+  padding: 3rem 2rem;
+  text-align: center;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--blush-pale) 100%);
+  min-height: 100vh;
+  font-family: var(--font-body);
+}
+
+.map-container {
+  height: 500px;
+  width: 100%;
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-large);
+  overflow: hidden;
+  margin: 2rem 0;
+  background: rgba(255, 255, 255, 0.95);
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+  .map-page {
+    padding: 1.5rem 0.5rem;
+  }
+  .map-container {
+    height: 320px;
+    margin: 1rem 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .map-page {
+    padding: 1rem 0.25rem;
+  }
+  .map-container {
+    height: 200px;
+  }
+}

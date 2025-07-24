@@ -1,0 +1,92 @@
+.admin-page {
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--sage-green-pale) 0%, var(--ivory) 100%);
+  font-family: var(--font-body);
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.admin-card {
+  background: rgba(255, 255, 255, 0.98);
+  border-radius: var(--border-radius-large);
+  box-shadow: var(--shadow-medium);
+  padding: 2.5rem 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(156, 175, 136, 0.1);
+  width: 100%;
+  max-width: 600px;
+  animation: fadeInUp 0.7s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+.admin-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
+}
+.admin-card h2 {
+  font-family: var(--font-heading);
+  color: var(--sage-green-dark);
+  margin-bottom: 1.5rem;
+  font-size: 2rem;
+}
+.admin-card label {
+  font-family: var(--font-body);
+  color: var(--sage-green);
+  font-weight: 500;
+}
+.admin-card input,
+.admin-card textarea,
+.admin-card select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: var(--border-radius-medium);
+  border: 1px solid var(--sage-green-light);
+  margin-bottom: 1.2rem;
+  font-size: 1rem;
+  font-family: var(--font-body);
+  background: var(--ivory);
+  transition: border-color 0.2s;
+}
+.admin-card input:focus,
+.admin-card textarea:focus,
+.admin-card select:focus {
+  border-color: var(--sage-green);
+  outline: none;
+}
+.admin-card button {
+  background: linear-gradient(90deg, var(--sage-green) 0%, var(--blush) 100%);
+  color: var(--charcoal);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  border: none;
+  border-radius: var(--border-radius-medium);
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  box-shadow: var(--shadow-soft);
+  transition:
+    background 0.2s,
+    transform 0.2s;
+}
+.admin-card button:hover {
+  background: linear-gradient(90deg, var(--sage-green-dark) 0%, var(--blush-dark) 100%);
+  transform: translateY(-2px) scale(1.03);
+}
+
+@media (max-width: 768px) {
+  .admin-page {
+    padding: 1.5rem 0.5rem;
+  }
+  .admin-card {
+    padding: 1.25rem 1rem;
+    max-width: 98vw;
+  }
+}
