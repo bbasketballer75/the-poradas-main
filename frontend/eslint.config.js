@@ -29,4 +29,15 @@ export default [
       'react/prop-types': 'off', // Optional: disable prop-types rule if not using them
     },
   },
+  {
+    ignores: [
+      'dist/',
+      'node_modules/',
+      'coverage/',
+      '**/*.test.js',
+      '**/*.test.jsx',
+      '**/*.spec.js',
+      '**/*.spec.jsx',
+    ],
+  },
 ];

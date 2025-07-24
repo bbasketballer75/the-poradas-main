@@ -104,7 +104,21 @@ const MemoryWall = () => {
           onChange={handleChange}
           disabled={submitting}
         />
-        {preview && <img src={preview} alt="Preview" className="memorywall-preview" />}
+        {preview && (
+          <picture>
+            <source srcSet={preview.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+            <source srcSet={preview} type="image/jpeg" />
+            <img
+              src={preview}
+              alt="Preview"
+              className="memorywall-preview"
+              loading="lazy"
+              width="400"
+              height="300"
+              style={{ maxWidth: '100%', height: 'auto' }}
+            />
+          </picture>
+        )}
         <button type="submit" disabled={submitting || !form.message}>
           {submitting ? 'Posting...' : 'Post Memory'}
         </button>
@@ -112,7 +126,19 @@ const MemoryWall = () => {
       <div className="memorywall-grid">
         {memories.map((mem) => (
           <div className="memorywall-card" key={mem.id}>
-            <img src={mem.image} alt="Memory" className="memorywall-img" />
+            <picture>
+              <source srcSet={mem.image.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+              <source srcSet={mem.image} type="image/jpeg" />
+              <img
+                src={mem.image}
+                alt="Memory"
+                className="memorywall-img"
+                loading="lazy"
+                width="400"
+                height="300"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />
+            </picture>
             <div className="memorywall-msg">{mem.message}</div>
             <div className="memorywall-reactions">
               {emojis.map((emoji) => (

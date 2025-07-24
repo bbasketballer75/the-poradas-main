@@ -42,11 +42,15 @@ const HomePage = () => {
                 </p>
               </div>
               <div className="col-lg-6 text-center">
-                <img
-                  src="/images/engagement.jpg"
-                  alt="Our Engagement"
-                  className="img-fluid rounded-circle shadow-lg"
-                />
+                <picture>
+                  <source srcSet="/images/engagement.webp" type="image/webp" />
+                  <img
+                    src="/images/engagement.jpg"
+                    alt="Our Engagement"
+                    className="img-fluid rounded-circle shadow-lg"
+                    loading="eager"
+                  />
+                </picture>
               </div>
             </div>
           </div>

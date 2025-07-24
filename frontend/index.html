@@ -4,7 +4,42 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Preconnect and dns-prefetch for best practices -->
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <meta
+      name="description"
+      content="Austin & Jordyn's wedding celebration. Share memories, photos, and more!"
+    />
+    <link rel="preload" as="image" href="/images/engagement.webp" type="image/webp" />
+    <link rel="manifest" href="/manifest.json" />
     <title>Our Wedding Website</title>
+    <!-- Inline critical CSS for above-the-fold content -->
+    <style>
+      body, #root {
+        width: 100%; min-height: 100vh; margin: 0; padding: 0;
+      }
+      .app-container {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f8f6f2 0%, #fbeee6 30%, #e6f2e0 70%, #eaf7ef 100%);
+        background-attachment: fixed;
+        position: relative;
+        overflow-x: hidden;
+      }
+      .landing-header {
+        text-align: center;
+        margin-top: 2rem;
+      }
+      .landing-hero-image {
+        width: 100%;
+        max-width: 1000px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        border-radius: 1.5rem;
+        box-shadow: 0 4px 32px rgba(0,0,0,0.08);
+      }
+    </style>
     <!-- Leaflet CSS -->
     <link
       rel="stylesheet"
@@ -15,6 +50,6 @@
   </head>
   <body>
     <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
+    <script type="module" src="/src/main.jsx" defer></script>
   </body>
 </html>

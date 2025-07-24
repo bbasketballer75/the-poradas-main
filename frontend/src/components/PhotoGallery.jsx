@@ -85,13 +85,20 @@ const PhotoGallery = ({ refreshKey }) => {
             {media.map((item, index) => (
               <div key={item._id} className="gallery-item">
                 {item.mimetype.startsWith('image/') && (
-                  <img
-                    src={`/${item.filepath}`}
-                    alt={`Wedding photo ${index + 1}, uploaded ${new Date(item.timestamp).toLocaleDateString()}`}
-                    loading="lazy"
-                    onError={handleImageError}
-                    className="gallery-image"
-                  />
+                  <picture>
+                    <source srcSet={`/${item.filepath}`.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                    <source srcSet={`/${item.filepath}`} type="image/jpeg" />
+                    <img
+                      src={`/${item.filepath}`}
+                      alt={`Wedding photo ${index + 1}, uploaded ${new Date(item.timestamp).toLocaleDateString()}`}
+                      loading="lazy"
+                      width="400"
+                      height="300"
+                      style={{ maxWidth: '100%', height: 'auto' }}
+                      onError={handleImageError}
+                      className="gallery-image"
+                    />
+                  </picture>
                 )}
                 {item.mimetype.startsWith('video/') && (
                   <video

@@ -50,7 +50,11 @@ const AlbumPage = () => {
             memories from others below.
           </p>
           <div className="upload-section">
+            <label htmlFor="album-upload-input" className="visually-hidden">
+              Upload your wedding photo or video
+            </label>
             <input
+              id="album-upload-input"
               type="file"
               onChange={handleFileChange}
               aria-label="Upload your wedding photo or video"
@@ -62,9 +66,17 @@ const AlbumPage = () => {
           <div className="photo-grid">
             {photos.map((photo) => (
               <div key={photo._id} className="photo-card">
-                <img src={`/uploads/${photo.filename}`} alt={`Wedding memory: ${photo.filename}`} />
+                {photo.webpPath && photo.jpegPath ? (
+                  <picture>
+                    <source srcSet={`/${photo.webpPath}`} type="image/webp" />
+                    <source srcSet={`/${photo.jpegPath}`} type="image/jpeg" />
+                    <img src={`/${photo.jpegPath}`} alt="Wedding memory" loading="lazy" />
+                  </picture>
+                ) : (
+                  <img src={`/uploads/${photo.filename}`} alt="Wedding memory" loading="lazy" />
+                )}
                 <a
-                  href={`/uploads/${photo.filename}`}
+                  href={photo.jpegPath ? `/${photo.jpegPath}` : `/uploads/${photo.filename}`}
                   download
                   className="btn secondary download-btn"
                   aria-label="Download photo"

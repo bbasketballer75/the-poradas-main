@@ -1,43 +1,63 @@
 import path from 'path';
-import fs from 'fs/promises';
 import os from 'os';
 import sharp from 'sharp';
 import ffmpeg from 'fluent-ffmpeg';
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import Photo from '../models/Photo.js';
+import cloudStorage from '../services/cloudStorage.js';
+import fs from 'fs/promises'; // Only for temp files
 
 // Configure fluent-ffmpeg to use the binary from the npm package.
 // This avoids the need for a manual ffmpeg installation on the server.
 ffmpeg.setFfmpegPath(ffmpegInstaller.path);
 
-const UPLOADS_DIR = 'uploads';
+// All media will be stored in GCS bucket via cloudStorage.js
 
-// Helper function to process a single file
+// Helper function to process a single file and upload to GCS
 const processFile = async (file) => {
   const { buffer, mimetype, originalname } = file;
   const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-  const extension = path.extname(originalname);
+  const extension = path.extname(originalname).toLowerCase();
   const tempInputPath = path.join(os.tmpdir(), `media-input-${uniqueSuffix}${extension}`);
-  let finalFilepath;
-  let finalMimetype;
+  let tempWebpPath, tempJpegPath, tempOutputPath, gcsWebpFilename, gcsJpegFilename, finalMimetype;
 
   try {
     if (mimetype.startsWith('image/')) {
-      const filename = `img-${uniqueSuffix}.webp`;
-      finalFilepath = path.join(UPLOADS_DIR, filename);
-      finalMimetype = 'image/webp';
-
+      // Process WebP
+      gcsWebpFilename = `album/img-${uniqueSuffix}.webp`;
+      tempWebpPath = path.join(os.tmpdir(), `img-${uniqueSuffix}.webp`);
       await sharp(buffer)
         .resize({ width: 1920, height: 1080, fit: 'inside', withoutEnlargement: true })
         .webp({ quality: 80 })
-        .toFile(finalFilepath);
+        .toFile(tempWebpPath);
+      await cloudStorage.uploadFile(tempWebpPath, gcsWebpFilename, 'image/webp');
+
+      // Process JPEG
+      gcsJpegFilename = `album/img-${uniqueSuffix}.jpg`;
+      tempJpegPath = path.join(os.tmpdir(), `img-${uniqueSuffix}.jpg`);
+      await sharp(buffer)
+        .resize({ width: 1920, height: 1080, fit: 'inside', withoutEnlargement: true })
+        .jpeg({ quality: 80 })
+        .toFile(tempJpegPath);
+      await cloudStorage.uploadFile(tempJpegPath, gcsJpegFilename, 'image/jpeg');
+
+      // Save both paths in DB (for backward compatibility, keep filename/filepath/mimetype as webp)
+      const newMedia = new Photo({
+        filename: gcsWebpFilename,
+        filepath: gcsWebpFilename,
+        mimetype: 'image/webp',
+        webpPath: gcsWebpFilename,
+        webpMimetype: 'image/webp',
+        jpegPath: gcsJpegFilename,
+        jpegMimetype: 'image/jpeg',
+      });
+      await newMedia.save();
+      return { status: 'success', data: newMedia };
     } else if (mimetype.startsWith('video/')) {
-      const filename = `vid-${uniqueSuffix}.mp4`;
-      finalFilepath = path.join(UPLOADS_DIR, filename);
+      gcsWebpFilename = `album/vid-${uniqueSuffix}.mp4`;
+      tempOutputPath = path.join(os.tmpdir(), `vid-${uniqueSuffix}.mp4`);
       finalMimetype = 'video/mp4';
-
       await fs.writeFile(tempInputPath, buffer);
-
       await new Promise((resolve, reject) => {
         ffmpeg(tempInputPath)
           .outputOptions([
@@ -49,30 +69,27 @@ const processFile = async (file) => {
           .toFormat('mp4')
           .on('end', resolve)
           .on('error', (err) => reject(new Error(`FFmpeg failed: ${err.message}`)))
-          .save(finalFilepath);
+          .save(tempOutputPath);
       });
+      await cloudStorage.uploadFile(tempOutputPath, gcsWebpFilename, finalMimetype);
+      const newMedia = new Photo({
+        filename: gcsWebpFilename,
+        filepath: gcsWebpFilename,
+        mimetype: finalMimetype,
+      });
+      await newMedia.save();
+      return { status: 'success', data: newMedia };
     } else {
       throw new Error('Unsupported file type');
     }
-
-    const newMedia = new Photo({
-      filename: path.basename(finalFilepath),
-      filepath: finalFilepath,
-      mimetype: finalMimetype,
-    });
-
-    await newMedia.save();
-    return { status: 'success', data: newMedia };
   } catch (error) {
-    // If processing fails, attempt to clean up the created file
-    if (finalFilepath) {
-      await fs.unlink(finalFilepath).catch(e => console.error(`Failed to clean up file: ${finalFilepath}`, e));
-    }
-    // Return a structured error object
     return { status: 'error', originalname, message: error.message };
   } finally {
-    // Always clean up the temporary input file
-    await fs.unlink(tempInputPath).catch(e => console.error(`Failed to clean up temp file: ${tempInputPath}`, e));
+    // Clean up temp files
+    await fs.unlink(tempInputPath).catch(() => {});
+    if (tempWebpPath) await fs.unlink(tempWebpPath).catch(() => {});
+    if (tempJpegPath) await fs.unlink(tempJpegPath).catch(() => {});
+    if (tempOutputPath) await fs.unlink(tempOutputPath).catch(() => {});
   }
 };
 
@@ -82,7 +99,7 @@ export const uploadMedia = async (req, res) => {
   }
 
   try {
-    await fs.mkdir(UPLOADS_DIR, { recursive: true });
+    // No need to create uploads dir; all files go to GCS
 
     const processingPromises = req.files.map(processFile);
     const results = await Promise.all(processingPromises);
@@ -147,11 +164,8 @@ export const moderateMedia = async (req, res) => {
     } else {
       const photo = await Photo.findByIdAndDelete(photoId);
       if (!photo) return res.status(404).json({ message: 'Photo not found.' });
-
-      // After deleting the DB record, delete the physical file
-      const filepath = path.join(UPLOADS_DIR, photo.filename);
-      await fs.unlink(filepath).catch(e => console.error(`Failed to delete rejected file: ${filepath}`, e));
-
+      // Delete from GCS
+      await cloudStorage.deleteFile(photo.filename).catch(() => {});
       res.json({ message: 'Media has been rejected and deleted.' });
     }
   } catch (error) {

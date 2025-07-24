@@ -18,11 +18,20 @@ const LandingPage = ({ onEnter }) => {
         </div>
 
         <div className="landing-photo">
-          <img
-            src="/images/wedding-hero.jpg"
-            alt="Austin & Jordyn Wedding"
-            className="landing-hero-image"
-          />
+          <picture>
+            <source srcSet="/images/wedding-hero.webp" type="image/webp" />
+            <source srcSet="/images/wedding-hero.jpg" type="image/jpeg" />
+            <img
+              src="/images/wedding-hero.jpg"
+              alt="Austin & Jordyn Wedding"
+              className="landing-hero-image"
+              loading="eager"
+              width="1000"
+              height="600"
+              style={{ maxWidth: '100%', height: 'auto' }}
+              fetchPriority="high"
+            />
+          </picture>
         </div>
 
         <button

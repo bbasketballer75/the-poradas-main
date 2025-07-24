@@ -1,9 +1,18 @@
+
 import express from 'express';
+import rateLimit from 'express-rate-limit';
 import {
   getGuestbookEntries,
   createGuestbookEntry,
   validateGuestbookEntry,
 } from '../controllers/guestbookController.js';
+
+// Rate limiter: max 5 guestbook posts per IP per hour
+const guestbookLimiter = rateLimit({
+  windowMs: 60 * 60 * 1000, // 1 hour
+  max: 5,
+  message: 'Too many guestbook entries from this IP, please try again later.'
+});
 
 const router = express.Router();
 
@@ -71,6 +80,6 @@ const router = express.Router();
  */
 router.route('/')
   .get(getGuestbookEntries)
-  .post(validateGuestbookEntry, createGuestbookEntry);
+  .post(guestbookLimiter, validateGuestbookEntry, createGuestbookEntry);
 
 export default router;

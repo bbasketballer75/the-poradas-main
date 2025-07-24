@@ -77,7 +77,18 @@ const AdminDashboard = ({ adminKey }) => {
           >
             <div className="media-preview">
               {item.mimetype.startsWith('image/') && (
-                <img src={item.filepath} alt="Submission preview" />
+                <picture>
+                  <source srcSet={item.filepath.replace(/\.(jpg|jpeg|png)$/i, '.webp')} type="image/webp" />
+                  <source srcSet={item.filepath} type="image/jpeg" />
+                  <img
+                    src={item.filepath}
+                    alt="Submission preview"
+                    loading="lazy"
+                    width="400"
+                    height="300"
+                    style={{ maxWidth: '100%', height: 'auto' }}
+                  />
+                </picture>
               )}
               {item.mimetype.startsWith('video/') && (
                 <video

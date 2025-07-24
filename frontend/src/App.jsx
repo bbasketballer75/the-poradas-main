@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
-import OnePage from './OnePage';
-import AdminPage from './pages/AdminPage';
 import { logVisit } from './services/api';
 import LoadingScreen from './components/LoadingScreen';
 import LandingPage from './components/LandingPage';
@@ -9,6 +7,10 @@ import MusicPlayer from './components/MusicPlayer';
 import NotificationBanner from './components/NotificationBanner';
 import OrientationOverlay from './components/OrientationOverlay';
 import './App.css';
+
+// Code splitting: Lazy load heavy components
+const OnePage = React.lazy(() => import('./OnePage'));
+const AdminPage = React.lazy(() => import('./pages/AdminPage'));
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -46,10 +48,12 @@ function App() {
         <>
           <NotificationBanner message={notification} onClose={() => setNotification('')} />
           <MusicPlayer isEnabled={musicEnabled} position="bottom-left" />
-          <Routes>
-            <Route path="/" element={<OnePage />} />
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
+          <Suspense fallback={<LoadingScreen message="Loading page..." />}>
+            <Routes>
+              <Route path="/" element={<OnePage />} />
+              <Route path="/admin" element={<AdminPage />} />
+            </Routes>
+          </Suspense>
         </>
       )}
     </div>

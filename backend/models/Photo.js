@@ -5,31 +5,18 @@ import mongoose from 'mongoose';
  * The 'approved' field is critical for the moderation feature.
  */
 const photoSchema = new mongoose.Schema({
-  filename: {
-    type: String,
-    required: true,
-  },
-  filepath: {
-    type: String,
-    required: true,
-  },
-  mimetype: {
-    type: String,
-    required: true,
-  },
-  uploadedBy: {
-    type: String,
-    default: 'Anonymous Guest',
-  },
-  approved: {
-    type: Boolean,
-    default: false, // All uploads start as unapproved.
-    required: true,
-  },
-  timestamp: {
-    type: Date,
-    default: Date.now,
-  },
+  // For backward compatibility, keep filename/filepath/mimetype as the 'main' (webp) version
+  filename: { type: String, required: true },
+  filepath: { type: String, required: true },
+  mimetype: { type: String, required: true },
+  // New fields for dual-format support
+  webpPath: { type: String },
+  webpMimetype: { type: String },
+  jpegPath: { type: String },
+  jpegMimetype: { type: String },
+  uploadedBy: { type: String, default: 'Anonymous Guest' },
+  approved: { type: Boolean, default: false, required: true },
+  timestamp: { type: Date, default: Date.now },
 });
 
 const Photo = mongoose.model('Photo', photoSchema);

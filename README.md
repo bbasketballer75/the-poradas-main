@@ -195,6 +195,34 @@ This project is a Node.js-powered website for our wedding. The primary objective
 
 ---
 
+## Development & Quality
+
+### Linting
+Run ESLint to check for code quality and errors:
+
+```sh
+npm run lint
+```
+
+### Formatting
+Run Prettier to automatically format your code:
+
+```sh
+npx prettier --write .
+```
+
+### Running Tests
+Run the full test suite with:
+
+```sh
+npm test
+```
+
+### CI/CD
+All pushes and pull requests to `main` will automatically run lint, format check, and tests via GitHub Actions (see `.github/workflows/ci.yml`).
+
+---
+
 ## 
  Future Improvements / TODO for AI Consideration
 

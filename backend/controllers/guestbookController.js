@@ -56,4 +56,3 @@ export const createGuestbookEntry = asyncHandler(async (req, res) => {
 
   res.status(201).json(entry);
 });
-});
