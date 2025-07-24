@@ -77,6 +77,6 @@ export default function Home() {
           <StayInTouchSection />
         </Suspense>
       </main>
-
+    </div>
   );
 }

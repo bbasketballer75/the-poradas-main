@@ -6,16 +6,13 @@ if (typeof globalThis.import.meta === 'undefined') {
   globalThis.import.meta = { env: { VITE_API_BASE_URL: 'http://localhost:3000/api' } };
 }
 // Polyfill for Node.js globals required by some dependencies
-try {
-  const { TextEncoder, TextDecoder } = require('util');
-  if (typeof global.TextEncoder === 'undefined') {
-    global.TextEncoder = TextEncoder;
-  }
-  if (typeof global.TextDecoder === 'undefined') {
-    global.TextDecoder = TextDecoder;
-  }
-} catch (e) {
-  // If running in a browser-like environment, do nothing
+
+import { TextEncoder, TextDecoder } from 'util';
+if (typeof global.TextEncoder === 'undefined') {
+  global.TextEncoder = TextEncoder;
+}
+if (typeof global.TextDecoder === 'undefined') {
+  global.TextDecoder = TextDecoder;
 }
 
 // Mock fetch for tests
